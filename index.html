@@ -1,0 +1,6726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#101828">
+<title>VIVA — Sua rotina, um passo de cada vez</title>
+
+<style>
+:root {
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #718096;
+    --border: #e5eaf2;
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --blue: #2563eb;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .07);
+    --radius: 20px;
+    --nav-height: 76px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+}
+
+button,
+.btn,
+.nav-item,
+.quick-card,
+.energy-option,
+.priority-option {
+    transition:
+        transform .16s ease,
+        box-shadow .16s ease,
+        background .2s ease,
+        opacity .2s ease;
+}
+
+button:active,
+.btn:active,
+.nav-item:active,
+.quick-card:active,
+.energy-option:active,
+.priority-option:active {
+    transform: scale(.95);
+}
+
+.tap-effect {
+    animation: tapPulse .28s ease;
+}
+
+@keyframes tapPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(.94);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.app {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding-bottom: calc(var(--nav-height) + 25px);
+}
+
+.page {
+    display: none;
+    padding: 18px 15px;
+    animation: pageIn .25s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: var(--primary);
+}
+
+.date-label {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.card-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.hero {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border-radius: 26px;
+    padding: 24px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 15px 35px rgba(79, 70, 229, .22);
+}
+
+.hero-small {
+    font-size: 13px;
+    opacity: .85;
+    margin-bottom: 6px;
+}
+
+.hero h1 {
+    font-size: 27px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.hero p {
+    font-size: 13px;
+    opacity: .9;
+    line-height: 1.5;
+}
+
+.xp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 17px;
+    margin-bottom: 14px;
+}
+
+.xp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+}
+
+.level-name {
+    font-weight: 800;
+}
+
+.xp-number {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.progress {
+    height: 9px;
+    background: #e9edf5;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    border-radius: inherit;
+    transition: width .5s ease;
+}
+
+/* =========================================================
+   ENERGIA
+========================================================= */
+
+.energy-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.energy-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.energy-value {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.energy-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.energy-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.energy-option {
+    background: #f4f6fa;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 10px 4px;
+    text-align: center;
+}
+
+.energy-option.active {
+    border-color: var(--primary);
+    background: #eef0ff;
+}
+
+.energy-option.disabled {
+    opacity: .45;
+}
+
+.energy-icon {
+    font-size: 23px;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.energy-name {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.energy-counter {
+    margin-top: 10px;
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.momento {
+    background: linear-gradient(135deg, #fff7ed, #fff);
+    border: 1px solid #fed7aa;
+}
+
+.momento-icon {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.momento-text {
+    font-size: 14px;
+    line-height: 1.55;
+    font-weight: 600;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin-bottom: 14px;
+}
+
+.stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 14px 8px;
+    text-align: center;
+}
+
+.stat-icon {
+    font-size: 20px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 21px;
+    font-weight: 900;
+    margin-top: 3px;
+}
+
+.stat-label {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 2px 10px;
+}
+
+.section-title {
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.section-action {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+    background: transparent;
+}
+
+.task-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 19px;
+    padding: 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.task-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.check {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: transparent;
+    font-weight: 900;
+}
+
+.check.completed {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+.task-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.task-card.completed .task-title {
+    text-decoration: line-through;
+    color: var(--muted);
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 7px;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 7px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.badge.high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge.medium {
+    background: #fef3c7;
+    color: #a16207;
+}
+
+.badge.low {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge.energy {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.task-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.fragment-area {
+    margin-top: 13px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.fragment-progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.fragment {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.fragment-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: transparent;
+    flex-shrink: 0;
+}
+
+.fragment.done .fragment-check {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+.fragment.done .fragment-text {
+    text-decoration: line-through;
+    color: var(--muted);
+}
+
+.next-step {
+    margin-top: 12px;
+    padding: 13px;
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    border-radius: 14px;
+}
+
+.next-step-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #7c3aed;
+    font-weight: 900;
+    letter-spacing: .5px;
+    margin-bottom: 4px;
+}
+
+.next-step-text {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.btn {
+    min-height: 42px;
+    padding: 10px 14px;
+    border-radius: 13px;
+    font-weight: 800;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-secondary {
+    background: #eef2ff;
+    color: var(--primary-dark);
+}
+
+.btn-light {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.btn-success {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.btn-danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-small {
+    min-height: 35px;
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+.quick-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+}
+
+.quick-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 15px;
+    text-align: left;
+}
+
+.quick-icon {
+    font-size: 23px;
+    margin-bottom: 7px;
+}
+
+.quick-title {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.quick-desc {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.mission {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.mission:last-child {
+    border-bottom: 0;
+}
+
+.mission-icon {
+    font-size: 22px;
+}
+
+.mission-info {
+    flex: 1;
+}
+
+.mission-title {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.mission-status {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.form-group {
+    margin-bottom: 13px;
+}
+
+.form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    border-radius: 13px;
+    padding: 12px;
+    outline: none;
+    color: var(--text);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, .08);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.priority-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+}
+
+.priority-option {
+    border: 2px solid transparent;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 10px 5px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.priority-option.active {
+    border-color: var(--primary);
+    background: #eef2ff;
+}
+
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+}
+
+.week-stat {
+    text-align: center;
+    background: #f8fafc;
+    border-radius: 13px;
+    padding: 11px 4px;
+}
+
+.week-stat strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.week-stat span {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+}
+
+.achievement-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.achievement-card.locked {
+    opacity: .45;
+    filter: grayscale(.7);
+}
+
+.achievement-icon {
+    font-size: 27px;
+    margin-bottom: 6px;
+}
+
+.achievement-title {
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.achievement-desc {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-top: 3px;
+}
+
+.achievement-xp {
+    font-size: 10px;
+    color: var(--primary);
+    font-weight: 800;
+    margin-top: 6px;
+}
+
+.habit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 15px;
+    margin-bottom: 9px;
+}
+
+.habit-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.habit-icon {
+    font-size: 25px;
+}
+
+.habit-info {
+    flex: 1;
+}
+
+.habit-name {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.habit-count {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.habit-bar {
+    height: 7px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 11px;
+}
+
+.habit-fill {
+    height: 100%;
+    background: var(--success);
+    transition: width .4s ease;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.list-item:last-child {
+    border-bottom: 0;
+}
+
+.list-content {
+    flex: 1;
+}
+
+.list-title {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.list-meta {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.streak-card {
+    background: linear-gradient(135deg, #fff7ed, #ffffff);
+    border: 1px solid #fed7aa;
+}
+
+.streak-number {
+    font-size: 35px;
+    font-weight: 950;
+}
+
+.streak-text {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.best-streak {
+    font-size: 11px;
+    color: #9a3412;
+    margin-top: 5px;
+    font-weight: 700;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1000;
+    padding: 0;
+}
+
+.modal-backdrop.open {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 620px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 25px 25px 0 0;
+    padding: 20px 16px 25px;
+    animation: modalIn .25s ease;
+}
+
+.modal-handle {
+    width: 42px;
+    height: 5px;
+    border-radius: 99px;
+    background: #d1d5db;
+    margin: 0 auto 17px;
+}
+
+@keyframes modalIn {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 7px;
+}
+
+.modal-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 17px;
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--nav-height) + 18px);
+    transform: translate(-50%, 20px);
+    background: #172033;
+    color: white;
+    padding: 11px 15px;
+    border-radius: 13px;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .25s ease;
+    z-index: 2000;
+    max-width: calc(100% - 30px);
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, .94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    z-index: 900;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-inner {
+    width: 100%;
+    max-width: 620px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.nav-item {
+    background: transparent;
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.nav-item span:first-child {
+    font-size: 21px;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.toggle {
+    width: 48px;
+    height: 27px;
+    border-radius: 99px;
+    background: #cbd5e1;
+    position: relative;
+}
+
+.toggle::after {
+    content: "";
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+    transition: .2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,.15);
+}
+
+.toggle.active {
+    background: var(--primary);
+}
+
+.toggle.active::after {
+    left: 24px;
+}
+
+.focus-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 1500;
+    display: none;
+    overflow-y: auto;
+}
+
+.focus-screen.open {
+    display: block;
+}
+
+.focus-inner {
+    width: 100%;
+    max-width: 620px;
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 25px 18px 35px;
+    display: flex;
+    flex-direction: column;
+}
+
+.focus-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.focus-title {
+    margin-top: 60px;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 950;
+}
+
+.focus-step {
+    margin-top: 30px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+}
+
+.focus-step-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--primary);
+    font-weight: 900;
+    letter-spacing: .6px;
+}
+
+.focus-step-text {
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 8px;
+    line-height: 1.25;
+}
+
+.focus-actions {
+    margin-top: auto;
+    padding-top: 35px;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px 10px;
+    color: var(--muted);
+}
+
+.empty-icon {
+    font-size: 35px;
+    margin-bottom: 7px;
+}
+
+.empty-text {
+    font-size: 13px;
+}
+
+@media (min-width: 700px) {
+
+    .page {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .modal-backdrop {
+        align-items: center;
+        padding: 20px;
+    }
+
+    .modal {
+        border-radius: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<main id="page-home" class="page active">
+
+    <div class="topbar">
+        <div class="logo">VI<span>VA</span></div>
+        <div id="dateLabel" class="date-label"></div>
+    </div>
+
+    <section class="hero">
+        <div id="heroSmall" class="hero-small">Bom dia</div>
+        <h1 id="heroTitle">Vamos começar?</h1>
+        <p id="heroText">
+            Um passo de cada vez. Você não precisa resolver tudo hoje.
+        </p>
+    </section>
+
+    <section class="xp-card">
+
+        <div class="xp-head">
+
+            <div>
+                <div id="levelName" class="level-name">
+                    Iniciante
+                </div>
+
+                <div id="levelNumber" class="card-subtitle">
+                    Nível 1
+                </div>
+            </div>
+
+            <div id="xpNumber" class="xp-number">
+                0 XP
+            </div>
+
+        </div>
+
+        <div class="progress">
+            <div id="xpBar" class="progress-bar"></div>
+        </div>
+
+        <div id="xpNext"
+             class="card-subtitle"
+             style="margin-top:7px;">
+        </div>
+
+    </section>
+
+    <div class="stats-grid">
+
+        <div class="stat">
+            <span class="stat-icon">🔥</span>
+            <span id="statStreak" class="stat-number">0</span>
+            <span class="stat-label">dias ativos</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-icon">🎯</span>
+            <span id="statTasks" class="stat-number">0</span>
+            <span class="stat-label">tarefas hoje</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-icon">🏆</span>
+            <span id="statAchievements" class="stat-number">0</span>
+            <span class="stat-label">conquistas</span>
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ENERGIA
+    ====================================================== -->
+
+    <section class="card energy-card">
+
+        <div class="energy-header">
+
+            <div>
+
+                <div class="card-title">
+                    💙 Como está sua energia?
+                </div>
+
+                <div class="energy-label">
+                    Você pode registrar uma vez pela manhã, uma à tarde e uma à noite.
+                </div>
+
+            </div>
+
+            <div id="energyValue"
+                 class="energy-value">
+                ⚡
+            </div>
+
+        </div>
+
+        <div class="energy-options">
+
+            <button class="energy-option"
+                    data-energy="1"
+                    onclick="setEnergy(1)">
+                <span class="energy-icon">🪫</span>
+                <span class="energy-name">Muito baixa</span>
+            </button>
+
+            <button class="energy-option"
+                    data-energy="2"
+                    onclick="setEnergy(2)">
+                <span class="energy-icon">🔋</span>
+                <span class="energy-name">Baixa</span>
+            </button>
+
+            <button class="energy-option"
+                    data-energy="3"
+                    onclick="setEnergy(3)">
+                <span class="energy-icon">⚡</span>
+                <span class="energy-name">Normal</span>
+            </button>
+
+            <button class="energy-option"
+                    data-energy="4"
+                    onclick="setEnergy(4)">
+                <span class="energy-icon">🔥</span>
+                <span class="energy-name">Boa</span>
+            </button>
+
+            <button class="energy-option"
+                    data-energy="5"
+                    onclick="setEnergy(5)">
+                <span class="energy-icon">🚀</span>
+                <span class="energy-name">Muito alta</span>
+            </button>
+
+        </div>
+
+        <div id="energyAdvice"
+             class="card-subtitle"
+             style="margin-top:12px;">
+        </div>
+
+        <div id="energyCounter"
+             class="energy-counter">
+        </div>
+
+        <div id="energyPeriods"
+             class="energy-counter"
+             style="margin-top:7px;">
+        </div>
+
+    </section>
+
+
+    <section class="card momento">
+
+        <div class="momento-icon">💙</div>
+
+        <div class="card-title">
+            VIVA MOMENTO
+        </div>
+
+        <div id="momentoText"
+             class="momento-text">
+        </div>
+
+    </section>
+
+    <div class="section-header">
+
+        <div>
+            <div class="section-title">
+                🎯 Tarefas de hoje
+            </div>
+
+            <div id="todayTaskSummary"
+                 class="card-subtitle">
+            </div>
+        </div>
+
+        <button class="section-action"
+                onclick="showPage('tasks')">
+            Ver todas
+        </button>
+
+    </div>
+
+    <div id="homeTasks"></div>
+
+    <button class="btn btn-primary btn-full"
+            onclick="openTaskModal()">
+        ＋ Nova tarefa
+    </button>
+
+    <div class="section-header">
+
+        <div class="section-title">
+            🔥 Sua constância
+        </div>
+
+    </div>
+
+    <section class="card streak-card">
+
+        <div class="streak-number">
+            <span id="streakBig">0</span> 🔥
+        </div>
+
+        <div id="streakText"
+             class="streak-text">
+            Comece hoje. Não precisa ser perfeito.
+        </div>
+
+        <div id="bestStreak"
+             class="best-streak">
+        </div>
+
+    </section>
+
+    <div class="section-header">
+
+        <div class="section-title">
+            🎯 Missões de hoje
+        </div>
+
+    </div>
+
+    <section class="card">
+        <div id="missions"></div>
+    </section>
+
+    <div class="section-header">
+
+        <div class="section-title">
+            📊 Esta semana
+        </div>
+
+        <button class="section-action"
+                onclick="showPage('profile')">
+            Detalhes
+        </button>
+
+    </div>
+
+    <section class="card">
+        <div id="weeklySummary"></div>
+    </section>
+
+    <div class="section-header">
+
+        <div class="section-title">
+            ⚡ Acesso rápido
+        </div>
+
+    </div>
+
+    <div class="quick-grid">
+
+        <button class="quick-card"
+                onclick="showPage('shopping')">
+            <div class="quick-icon">🛒</div>
+            <div class="quick-title">Compras</div>
+            <div class="quick-desc">
+                Sua lista de mercado
+            </div>
+        </button>
+
+        <button class="quick-card"
+                onclick="showPage('habits')">
+            <div class="quick-icon">🌱</div>
+            <div class="quick-title">Hábitos</div>
+            <div class="quick-desc">
+                Pequenas ações diárias
+            </div>
+        </button>
+
+        <button class="quick-card"
+                onclick="showPage('expenses')">
+            <div class="quick-icon">💰</div>
+            <div class="quick-title">Gastos</div>
+            <div class="quick-desc">
+                Olhe para seu dinheiro
+            </div>
+        </button>
+
+        <button class="quick-card"
+                onclick="showPage('notes')">
+            <div class="quick-icon">📝</div>
+            <div class="quick-title">Anotações</div>
+            <div class="quick-desc">
+                Tire as ideias da cabeça
+            </div>
+        </button>
+
+    </div>
+
+</main>
+
+<!-- =====================================================
+     TAREFAS
+====================================================== -->
+
+<main id="page-tasks" class="page">
+
+    <div class="topbar">
+
+        <div>
+            <div class="logo">🎯 Tarefas</div>
+            <div class="card-subtitle">
+                Um passo de cada vez.
+            </div>
+        </div>
+
+        <button class="btn btn-primary btn-small"
+                onclick="openTaskModal()">
+            ＋ Nova
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="toggle-row">
+
+            <div>
+                <div class="card-title"
+                     style="margin-bottom:2px;">
+                    🪜 Só o próximo passo
+                </div>
+
+                <div class="card-subtitle">
+                    Mostra apenas a próxima etapa.
+                </div>
+            </div>
+
+            <button id="globalNextStepToggle"
+                    class="toggle"
+                    onclick="toggleGlobalNextStep()">
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="allTasks"></div>
+
+</main>
+
+<!-- =====================================================
+     COMPRAS
+====================================================== -->
+
+<main id="page-shopping" class="page">
+
+    <div class="topbar">
+        <div class="logo">🛒 Compras</div>
+    </div>
+
+    <section class="card">
+
+        <div class="form-group">
+
+            <label class="form-label">
+                O que precisa comprar?
+            </label>
+
+            <input id="shoppingInput"
+                   type="text"
+                   placeholder="Ex.: arroz">
+
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                onclick="addShopping()">
+            ＋ Adicionar
+        </button>
+
+    </section>
+
+    <div id="shoppingList"></div>
+
+</main>
+
+<!-- =====================================================
+     HÁBITOS
+====================================================== -->
+
+<main id="page-habits" class="page">
+
+    <div class="topbar">
+        <div class="logo">🌱 Hábitos</div>
+    </div>
+
+    <section class="card">
+
+        <div class="card-title">
+            Pequenas ações.
+        </div>
+
+        <div class="card-subtitle">
+            Não tente mudar sua vida inteira em um dia.
+        </div>
+
+    </section>
+
+    <div id="habitsList"></div>
+
+</main>
+
+<!-- =====================================================
+     PERFIL
+====================================================== -->
+
+<main id="page-profile" class="page">
+
+    <div class="topbar">
+        <div class="logo">👤 Perfil</div>
+    </div>
+
+    <section class="card">
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Seu nome
+            </label>
+
+            <input id="profileName"
+                   type="text"
+                   placeholder="Como podemos te chamar?">
+
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                onclick="saveName()">
+            Salvar nome
+        </button>
+
+    </section>
+
+    <section class="card">
+
+        <div class="card-title">
+            📊 Resumo semanal
+        </div>
+
+        <div class="card-subtitle">
+            Veja sua evolução sem precisar ser perfeito.
+        </div>
+
+        <div id="profileWeekly"
+             style="margin-top:14px;">
+        </div>
+
+    </section>
+
+    <section class="card">
+
+        <div class="card-title">
+            🏆 Conquistas
+        </div>
+
+        <div class="card-subtitle"
+             style="margin-bottom:14px;">
+            Cada uma representa um pequeno avanço.
+        </div>
+
+        <div id="achievements"
+             class="achievement-grid">
+        </div>
+
+    </section>
+
+    <section class="card">
+
+        <div class="card-title">
+            💾 Dados
+        </div>
+
+        <div class="card-subtitle"
+             style="margin-bottom:12px;">
+            Seus dados ficam salvos neste navegador.
+        </div>
+
+        <div style="display:grid;gap:8px;">
+
+            <button class="btn btn-secondary btn-full"
+                    onclick="exportData()">
+                📤 Exportar backup
+            </button>
+
+            <label class="btn btn-light btn-full">
+
+                📥 Importar backup
+
+                <input type="file"
+                       id="importFile"
+                       accept=".json"
+                       onchange="importData(event)"
+                       style="display:none;">
+
+            </label>
+
+            <button class="btn btn-danger btn-full"
+                    onclick="resetData()">
+                ♻️ Resetar dados
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- =====================================================
+     GASTOS
+====================================================== -->
+
+<main id="page-expenses" class="page">
+
+    <div class="topbar">
+        <div class="logo">💰 Gastos</div>
+    </div>
+
+    <section class="card">
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Descrição
+            </label>
+
+            <input id="expenseDesc"
+                   type="text"
+                   placeholder="Ex.: Mercado">
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Valor
+            </label>
+
+            <input id="expenseValue"
+                   type="number"
+                   step="0.01"
+                   placeholder="0,00">
+
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                onclick="addExpense()">
+            ＋ Registrar gasto
+        </button>
+
+    </section>
+
+    <section class="card">
+
+        <div class="card-title">
+            Total
+        </div>
+
+        <div id="expenseTotal"
+             style="font-size:27px;font-weight:900;margin-top:4px;">
+            R$ 0,00
+        </div>
+
+    </section>
+
+    <div id="expensesList"></div>
+
+</main>
+
+<!-- =====================================================
+     ANOTAÇÕES
+====================================================== -->
+
+<main id="page-notes" class="page">
+
+    <div class="topbar">
+        <div class="logo">📝 Anotações</div>
+    </div>
+
+    <section class="card">
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Nova anotação
+            </label>
+
+            <textarea id="noteInput"
+                      placeholder="Escreva o que estiver na sua cabeça..."></textarea>
+
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                onclick="addNote()">
+            ＋ Salvar anotação
+        </button>
+
+    </section>
+
+    <div id="notesList"></div>
+
+</main>
+
+</div>
+
+<!-- =====================================================
+     NAVEGAÇÃO
+====================================================== -->
+
+<nav class="bottom-nav">
+
+    <div class="nav-inner">
+
+        <button class="nav-item active"
+                data-page="home"
+                onclick="showPage('home')">
+            <span>🏠</span>
+            <span>Início</span>
+        </button>
+
+        <button class="nav-item"
+                data-page="tasks"
+                onclick="showPage('tasks')">
+            <span>🎯</span>
+            <span>Tarefas</span>
+        </button>
+
+        <button class="nav-item"
+                data-page="shopping"
+                onclick="showPage('shopping')">
+            <span>🛒</span>
+            <span>Compras</span>
+        </button>
+
+        <button class="nav-item"
+                data-page="habits"
+                onclick="showPage('habits')">
+            <span>🌱</span>
+            <span>Hábitos</span>
+        </button>
+
+        <button class="nav-item"
+                data-page="profile"
+                onclick="showPage('profile')">
+            <span>👤</span>
+            <span>Perfil</span>
+        </button>
+
+    </div>
+
+</nav>
+
+<!-- =====================================================
+     MODAL
+====================================================== -->
+
+<div id="modalBackdrop"
+     class="modal-backdrop"
+     onclick="closeModalOutside(event)">
+
+    <div id="modalContent"
+         class="modal">
+    </div>
+
+</div>
+
+<!-- =====================================================
+     MODO FOCO
+====================================================== -->
+
+<div id="focusScreen"
+     class="focus-screen">
+
+    <div class="focus-inner">
+
+        <div class="focus-top">
+
+            <div class="logo">
+                VIVA<span>.</span>
+            </div>
+
+            <button class="btn btn-light btn-small"
+                    onclick="closeFocus()">
+                Sair
+            </button>
+
+        </div>
+
+        <div id="focusTaskTitle"
+             class="focus-title">
+        </div>
+
+        <div class="focus-step">
+
+            <div id="focusStepLabel"
+                 class="focus-step-label">
+                PRÓXIMO PASSO
+            </div>
+
+            <div id="focusStepText"
+                 class="focus-step-text">
+            </div>
+
+        </div>
+
+        <div id="focusProgress"
+             style="margin-top:14px;">
+        </div>
+
+        <div class="focus-actions">
+
+            <button class="btn btn-primary btn-full"
+                    onclick="completeFocusStep()">
+                ✓ Concluí este passo
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="toast"
+     class="toast">
+</div>
+
+<script>
+
+/* =========================================================
+   VIVA V3
+   SISTEMA DE ESTADO
+========================================================= */
+
+const STORAGE_KEY = "VIVA_V3";
+
+const CURRENT_DATA_VERSION = 4;
+
+const MAX_DAILY_ENERGY_CHECKINS = 3;
+
+const ENERGY_PERIODS = {
+    morning: {
+        name: "Manhã",
+        icon: "🌅",
+        start: 5,
+        end: 12
+    },
+    afternoon: {
+        name: "Tarde",
+        icon: "☀️",
+        start: 12,
+        end: 18
+    },
+    night: {
+        name: "Noite",
+        icon: "🌙",
+        start: 18,
+        end: 5
+    }
+};
+
+/* =========================================================
+   NÍVEIS
+========================================================= */
+
+const LEVELS = [
+    { level: 1, name: "Iniciante", xp: 0 },
+    { level: 2, name: "Organizando a vida", xp: 100 },
+    { level: 3, name: "Pegando ritmo", xp: 250 },
+    { level: 4, name: "Em movimento", xp: 450 },
+    { level: 5, name: "Consistente", xp: 700 },
+    { level: 6, name: "Disciplinado", xp: 1000 },
+    { level: 7, name: "Mestre da rotina", xp: 1400 },
+    { level: 8, name: "Alta performance", xp: 1900 },
+    { level: 9, name: "Referência", xp: 2500 },
+    { level: 10, name: "Mestre VIVA", xp: 3300 }
+];
+
+/* =========================================================
+   ENERGIA
+========================================================= */
+
+const ENERGY = {
+
+    1: {
+        icon: "🪫",
+        name: "Muito baixa",
+        advice:
+            "Hoje talvez seja um dia para fazer o mínimo necessário. Uma pequena ação já conta.",
+        maxEnergy: 20
+    },
+
+    2: {
+        icon: "🔋",
+        name: "Baixa",
+        advice:
+            "Escolha tarefas pequenas. Não precisa gastar toda sua energia de uma vez.",
+        maxEnergy: 35
+    },
+
+    3: {
+        icon: "⚡",
+        name: "Normal",
+        advice:
+            "Você está em um ritmo equilibrado. Dá para avançar um pouco.",
+        maxEnergy: 60
+    },
+
+    4: {
+        icon: "🔥",
+        name: "Boa",
+        advice:
+            "Boa hora para aproveitar o ritmo e resolver uma tarefa importante.",
+        maxEnergy: 80
+    },
+
+    5: {
+        icon: "🚀",
+        name: "Muito alta",
+        advice:
+            "Você está com bastante energia. Aproveite, mas não tente fazer tudo de uma vez.",
+        maxEnergy: 100
+    }
+};
+
+/* =========================================================
+   XP
+========================================================= */
+
+const XP_TASK = {
+    high: 20,
+    medium: 15,
+    low: 10
+};
+
+/* =========================================================
+   CONQUISTAS
+========================================================= */
+
+const ACHIEVEMENTS = [
+
+    {
+        id: "first_step",
+        icon: "🌱",
+        title: "Primeiro passo",
+        desc: "Concluiu sua primeira tarefa.",
+        xp: 20,
+        check: s =>
+            s.tasks.some(t => t.completed)
+    },
+
+    {
+        id: "three_tasks",
+        icon: "🎯",
+        title: "Entrando no ritmo",
+        desc: "Concluiu 3 tarefas.",
+        xp: 30,
+        check: s =>
+            s.tasks.filter(t => t.completed).length >= 3
+    },
+
+    {
+        id: "five_tasks",
+        icon: "🔥",
+        title: "Pegando ritmo",
+        desc: "Concluiu 5 tarefas.",
+        xp: 50,
+        check: s =>
+            s.tasks.filter(t => t.completed).length >= 5
+    },
+
+    {
+        id: "ten_tasks",
+        icon: "🏆",
+        title: "Constância",
+        desc: "Concluiu 10 tarefas.",
+        xp: 80,
+        check: s =>
+            s.tasks.filter(t => t.completed).length >= 10
+    },
+
+    {
+        id: "fragment_master",
+        icon: "🪜",
+        title: "Um passo de cada vez",
+        desc: "Concluiu 10 microetapas.",
+        xp: 60,
+        check: s =>
+            s.tasks.reduce(
+                (total, task) =>
+                    total +
+                    (task.fragments || [])
+                        .filter(f => f.done).length,
+                0
+            ) >= 10
+    },
+
+    {
+        id: "first_focus",
+        icon: "🧠",
+        title: "Foco",
+        desc: "Usou o modo foco.",
+        xp: 35,
+        check: s =>
+            Number(s.focusSessions || 0) >= 1
+    },
+
+    {
+        id: "energy_check",
+        icon: "💙",
+        title: "Se ouvindo",
+        desc: "Registrou sua energia.",
+        xp: 15,
+        check: s =>
+            getEnergyDaysCount() >= 1
+    },
+
+    {
+        id: "three_energy_days",
+        icon: "💙",
+        title: "Autopercepção",
+        desc: "Registrou sua energia em 3 dias diferentes.",
+        xp: 40,
+        check: s =>
+            getEnergyDaysCount() >= 3
+    },
+
+    {
+        id: "weekly_active",
+        icon: "📊",
+        title: "Olhar para trás",
+        desc: "Teve 5 dias ativos.",
+        xp: 60,
+        check: s =>
+            getWeeklyActiveDays() >= 5
+    },
+
+    {
+        id: "habit",
+        icon: "🌱",
+        title: "Pequena constância",
+        desc: "Concluiu um hábito.",
+        xp: 25,
+        check: s =>
+            s.habits.some(h => h.count > 0)
+    }
+];
+
+/* =========================================================
+   HÁBITOS
+========================================================= */
+
+const DEFAULT_HABITS = [
+
+    {
+        id: "water",
+        name: "Beber água",
+        icon: "💧",
+        target: 2,
+        count: 0,
+        lastDate: ""
+    },
+
+    {
+        id: "movement",
+        name: "Movimentar o corpo",
+        icon: "🏃",
+        target: 1,
+        count: 0,
+        lastDate: ""
+    },
+
+    {
+        id: "study",
+        name: "Ler / estudar",
+        icon: "📚",
+        target: 1,
+        count: 0,
+        lastDate: ""
+    }
+
+];
+
+/* =========================================================
+   ESTADO PADRÃO
+========================================================= */
+
+function createDefaultState() {
+
+    return {
+
+        dataVersion: CURRENT_DATA_VERSION,
+
+        name: "",
+
+        xp: 0,
+        level: 1,
+
+        streak: 0,
+        bestStreak: 0,
+        lastActiveDate: "",
+
+        /* -------------------------
+           ENERGIA
+        ------------------------- */
+
+        energy: 3,
+
+        energyDate: "",
+
+        energyCheckins: 0,
+
+        energyHistory: {},
+
+        /*
+           NOVO:
+
+           Guarda os registros do dia.
+
+           Exemplo:
+
+           energyLogs: {
+               "2026-09-06": [
+                   {
+                       time: "08:20",
+                       value: 3
+                   },
+                   {
+                       time: "14:10",
+                       value: 2
+                   }
+               ]
+           }
+        */
+
+        energyLogs: {},
+
+        /* -------------------------
+           OUTROS
+        ------------------------- */
+
+        focusSessions: 0,
+
+        achievements: [],
+
+        tasks: [],
+
+        expenses: [],
+
+        shopping: [],
+
+        habits:
+            JSON.parse(
+                JSON.stringify(DEFAULT_HABITS)
+            ),
+
+        notes: [],
+
+        missionsDate: "",
+
+        missions: {
+            tasks: 0,
+            habit: 0,
+            expense: 0
+        },
+
+        rewards: {},
+
+        globalNextStep: false
+    };
+}
+
+/* =========================================================
+   ESTADO ATUAL
+========================================================= */
+
+let state = loadState();
+
+let currentPage = "home";
+
+let focusTaskId = null;
+
+let focusFragmentIndex = null;
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function today() {
+
+    const d = new Date();
+
+    const year =
+        d.getFullYear();
+
+    const month =
+        String(
+            d.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            d.getDate()
+        ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "";
+    }
+
+    const parts =
+        dateString.split("-");
+
+    if (parts.length !== 3) {
+        return dateString;
+    }
+
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+/* =========================================================
+   STORAGE — SALVAMENTO LOCAL
+========================================================= */
+
+function saveState() {
+
+    try {
+
+        state.dataVersion =
+            CURRENT_DATA_VERSION;
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(state)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "VIVA: erro ao salvar dados:",
+            error
+        );
+
+        showToast(
+            "⚠️ Não foi possível salvar os dados."
+        );
+
+        return false;
+    }
+}
+
+/* =========================================================
+   CARREGAMENTO / RECUPERAÇÃO
+========================================================= */
+
+function loadState() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+        if (!saved) {
+
+            return createDefaultState();
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        const defaults =
+            createDefaultState();
+
+        /*
+           Object.assign preserva o que já
+           existia e adiciona propriedades
+           novas quando atualizamos o VIVA.
+        */
+
+        const merged =
+            Object.assign(
+                defaults,
+                parsed
+            );
+
+        /*
+           Garantias extras para evitar
+           "undefined" em versões antigas.
+        */
+
+        if (!Array.isArray(merged.tasks)) {
+            merged.tasks = [];
+        }
+
+        if (!Array.isArray(merged.expenses)) {
+            merged.expenses = [];
+        }
+
+        if (!Array.isArray(merged.shopping)) {
+            merged.shopping = [];
+        }
+
+        if (!Array.isArray(merged.habits)) {
+
+            merged.habits =
+                JSON.parse(
+                    JSON.stringify(
+                        DEFAULT_HABITS
+                    )
+                );
+        }
+
+        if (!Array.isArray(merged.notes)) {
+            merged.notes = [];
+        }
+
+        if (!Array.isArray(merged.achievements)) {
+            merged.achievements = [];
+        }
+
+        if (!merged.energyHistory) {
+            merged.energyHistory = {};
+        }
+
+        if (!merged.energyLogs) {
+            merged.energyLogs = {};
+        }
+
+        if (!merged.rewards) {
+            merged.rewards = {};
+        }
+
+        if (!merged.missions) {
+
+            merged.missions = {
+                tasks: 0,
+                habit: 0,
+                expense: 0
+            };
+        }
+
+        /*
+           Migração da estrutura antiga
+           de energia.
+
+           Se a versão anterior já tinha
+           energyHistory, ela continua.
+        */
+
+        if (
+            merged.energyCheckins &&
+            Object.keys(merged.energyHistory).length === 0
+        ) {
+
+            if (merged.energyDate) {
+
+                merged.energyHistory[
+                    merged.energyDate
+                ] = merged.energy;
+            }
+        }
+
+        merged.dataVersion =
+            CURRENT_DATA_VERSION;
+
+        /*
+           Salva imediatamente a estrutura
+           já corrigida.
+        */
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(merged)
+        );
+
+        return merged;
+
+    } catch (error) {
+
+        console.error(
+            "VIVA: erro ao carregar dados:",
+            error
+        );
+
+        /*
+           DEBUG/PERSISTÊNCIA:
+           se o JSON salvo estiver corrompido,
+           fazemos uma cópia do conteúdo original
+           antes de iniciar um estado novo.
+        */
+        try {
+
+            const damaged =
+                localStorage.getItem(
+                    STORAGE_KEY
+                );
+
+            if (damaged) {
+
+                localStorage.setItem(
+                    STORAGE_KEY + "_CORROMPIDO",
+                    damaged
+                );
+            }
+
+        } catch (backupError) {
+
+            console.error(
+                "VIVA: não foi possível preservar o backup corrompido:",
+                backupError
+            );
+        }
+
+        return createDefaultState();
+    }
+}
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+function uid(prefix = "id") {
+
+    return (
+        prefix +
+        "_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .slice(2, 8)
+    );
+}
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    if (!toast) return;
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+        showToast.timer
+    );
+
+    showToast.timer =
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        }, 2300);
+}
+
+function animateButton(button) {
+
+    if (!button) return;
+
+    button.classList.remove(
+        "tap-effect"
+    );
+
+    void button.offsetWidth;
+
+    button.classList.add(
+        "tap-effect"
+    );
+}
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "button"
+            );
+
+        if (button) {
+            animateButton(button);
+        }
+    }
+);
+
+/* =========================================================
+   RESET DIÁRIO
+========================================================= */
+
+function resetDailyData() {
+
+    const current =
+        today();
+
+    if (
+        state.missionsDate !==
+        current
+    ) {
+
+        state.missionsDate =
+            current;
+
+        state.missions = {
+            tasks: 0,
+            habit: 0,
+            expense: 0
+        };
+    }
+
+    state.habits.forEach(
+        habit => {
+
+            if (
+                habit.lastDate !==
+                current
+            ) {
+
+                habit.count = 0;
+            }
+        }
+    );
+
+    /*
+       A energia exibida sempre representa
+       o estado atual do dia.
+
+       Não apagamos o histórico.
+    */
+
+    if (
+        state.energyDate !==
+        current
+    ) {
+
+        state.energy = 3;
+
+        state.energyDate =
+            current;
+    }
+
+    /*
+       O salvamento fica sob responsabilidade do fluxo que
+       chamou esta função. Isso evita recursão infinita quando
+       renderAll() chama resetDailyData().
+    */
+}
+
+/* =========================================================
+   ENERGIA — NOVO SISTEMA
+========================================================= */
+
+/*
+   Retorna quantas vezes o usuário
+   registrou energia HOJE.
+*/
+
+function getEnergyPeriod(date = new Date()) {
+
+    const hour = date.getHours();
+
+    if (hour >= 5 && hour < 12) {
+        return "morning";
+    }
+
+    if (hour >= 12 && hour < 18) {
+        return "afternoon";
+    }
+
+    return "night";
+}
+
+function getEnergyPeriodName(period) {
+
+    return ENERGY_PERIODS[period]
+        ? ENERGY_PERIODS[period].name
+        : period;
+}
+
+function inferEnergyPeriodFromTime(time) {
+
+    if (!time) {
+        return null;
+    }
+
+    const match =
+        String(time).match(/(\d{1,2}):(\d{2})/);
+
+    if (!match) {
+        return null;
+    }
+
+    const hour = Number(match[1]);
+
+    if (hour >= 5 && hour < 12) {
+        return "morning";
+    }
+
+    if (hour >= 12 && hour < 18) {
+        return "afternoon";
+    }
+
+    return "night";
+}
+
+/*
+   Retorna os registros de energia de HOJE.
+
+   Registros antigos, criados antes do sistema
+   de períodos, recebem automaticamente um período
+   com base no horário salvo.
+*/
+function getTodayEnergyLogs() {
+
+    const current =
+        today();
+
+    if (
+        !state.energyLogs ||
+        !Array.isArray(
+            state.energyLogs[current]
+        )
+    ) {
+        return [];
+    }
+
+    const logs =
+        state.energyLogs[current];
+
+    logs.forEach(log => {
+
+        if (!log.period) {
+            log.period =
+                inferEnergyPeriodFromTime(
+                    log.time
+                );
+        }
+
+    });
+
+    return logs;
+}
+
+function hasEnergyForPeriod(period) {
+
+    return getTodayEnergyLogs()
+        .some(
+            log =>
+                log.period === period
+        );
+}
+
+function getRemainingEnergyCheckins() {
+
+    return Math.max(
+        0,
+        MAX_DAILY_ENERGY_CHECKINS -
+        getTodayEnergyLogs().length
+    );
+}
+
+function getEnergyDaysCount() {
+
+    if (!state.energyHistory) {
+        return 0;
+    }
+
+    return Object.keys(
+        state.energyHistory
+    ).length;
+}
+
+/*
+   Retorna quantos períodos já foram
+   registrados hoje.
+*/
+function getRegisteredEnergyPeriods() {
+
+    const logs =
+        getTodayEnergyLogs();
+
+    return Object.keys(
+        ENERGY_PERIODS
+    ).filter(
+        period =>
+            logs.some(
+                log =>
+                    log.period === period
+            )
+    );
+}
+
+/*
+   Registra energia.
+
+   REGRAS V4:
+
+   1. Manhã: 1 registro.
+   2. Tarde: 1 registro.
+   3. Noite: 1 registro.
+   4. Não é possível registrar novamente
+      dentro do mesmo período.
+   5. O XP da energia é dado SOMENTE
+      no primeiro registro do dia.
+   6. Todos os registros permanecem
+      salvos no histórico.
+*/
+function setEnergy(level) {
+
+    const energyLevel =
+        Number(level);
+
+    if (!ENERGY[energyLevel]) {
+
+        showToast(
+            "Energia inválida."
+        );
+
+        return;
+    }
+
+    const current =
+        today();
+
+    const period =
+        getEnergyPeriod();
+
+    const logs =
+        getTodayEnergyLogs();
+
+    /*
+       Proteção contra registro duplicado
+       no mesmo período.
+    */
+    if (
+        hasEnergyForPeriod(period)
+    ) {
+
+        const periodInfo =
+            ENERGY_PERIODS[period];
+
+        showToast(
+            `${periodInfo.icon} A energia da ${periodInfo.name.toLowerCase()} já foi registrada.`
+        );
+
+        renderEnergy();
+
+        return;
+    }
+
+    /*
+       Proteção extra: nunca ultrapassa
+       os 3 registros diários.
+    */
+    if (
+        logs.length >=
+        MAX_DAILY_ENERGY_CHECKINS
+    ) {
+
+        showToast(
+            "💙 Você já fez os 3 registros de hoje."
+        );
+
+        renderEnergy();
+
+        return;
+    }
+
+    if (!state.energyLogs[current]) {
+
+        state.energyLogs[current] =
+            [];
+    }
+
+    const now =
+        new Date();
+
+    state.energyLogs[current].push({
+
+        time:
+            now.toLocaleTimeString(
+                "pt-BR",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            ),
+
+        value:
+            energyLevel,
+
+        period:
+            period
+    });
+
+    state.energy =
+        energyLevel;
+
+    state.energyDate =
+        current;
+
+    state.energyHistory[current] =
+        energyLevel;
+
+    state.energyCheckins =
+        Number(
+            state.energyCheckins || 0
+        ) + 1;
+
+    registerActivity();
+
+    /*
+       XP SOMENTE no primeiro registro
+       de energia do dia.
+    */
+    if (logs.length === 0) {
+
+        addXP(
+            3,
+            "Você cuidou de si"
+        );
+
+    } else {
+
+        saveState();
+    }
+
+    checkAchievements();
+
+    renderAll();
+
+    const periodInfo =
+        ENERGY_PERIODS[period];
+
+    if (logs.length === 0) {
+
+        showToast(
+            `${periodInfo.icon} ${periodInfo.name}: energia registrada · +3 XP`
+        );
+
+    } else if (
+        getRegisteredEnergyPeriods().length >=
+        MAX_DAILY_ENERGY_CHECKINS
+    ) {
+
+        showToast(
+            `${periodInfo.icon} ${periodInfo.name}: último registro de hoje.`
+        );
+
+    } else {
+
+        showToast(
+            `${periodInfo.icon} ${periodInfo.name}: energia atualizada · sem XP`
+        );
+    }
+}
+
+function renderEnergy() {
+
+    const level =
+        Number(
+            state.energy || 3
+        );
+
+    const info =
+        ENERGY[level];
+
+    const logs =
+        getTodayEnergyLogs();
+
+    const currentPeriod =
+        getEnergyPeriod();
+
+    const currentPeriodRegistered =
+        hasEnergyForPeriod(
+            currentPeriod
+        );
+
+    const registeredPeriods =
+        getRegisteredEnergyPeriods();
+
+    document
+        .querySelectorAll(
+            ".energy-option"
+        )
+        .forEach(button => {
+
+            const buttonLevel =
+                Number(
+                    button.dataset.energy
+                );
+
+            button.classList.toggle(
+                "active",
+                buttonLevel === level
+            );
+
+            /*
+               As opções ficam bloqueadas somente
+               depois que o período atual já foi
+               registrado.
+            */
+            button.classList.toggle(
+                "disabled",
+                currentPeriodRegistered
+            );
+
+            button.disabled =
+                currentPeriodRegistered;
+        });
+
+    const value =
+        document.getElementById(
+            "energyValue"
+        );
+
+    if (value) {
+        value.textContent =
+            info.icon;
+    }
+
+    const advice =
+        document.getElementById(
+            "energyAdvice"
+        );
+
+    if (advice) {
+
+        if (currentPeriodRegistered) {
+
+            advice.textContent =
+                `✓ Sua energia da ${ENERGY_PERIODS[currentPeriod].name.toLowerCase()} já foi registrada. A próxima atualização será no próximo período.`;
+
+        } else {
+
+            advice.textContent =
+                info.advice;
+        }
+    }
+
+    const counter =
+        document.getElementById(
+            "energyCounter"
+        );
+
+    if (counter) {
+
+        counter.textContent =
+            `${logs.length}/${MAX_DAILY_ENERGY_CHECKINS} registros hoje · ${ENERGY_PERIODS[currentPeriod].icon} ${ENERGY_PERIODS[currentPeriod].name}: ${
+                currentPeriodRegistered
+                    ? "já registrada"
+                    : "disponível"
+            }`;
+    }
+
+    const periods =
+        document.getElementById(
+            "energyPeriods"
+        );
+
+    if (periods) {
+
+        periods.innerHTML =
+            Object.keys(
+                ENERGY_PERIODS
+            )
+            .map(
+                period => {
+
+                    const item =
+                        ENERGY_PERIODS[period];
+
+                    const done =
+                        registeredPeriods.includes(
+                            period
+                        );
+
+                    const isCurrent =
+                        period ===
+                        currentPeriod;
+
+                    return `
+                        <span style="
+                            display:inline-block;
+                            margin:2px;
+                            padding:5px 7px;
+                            border-radius:8px;
+                            background:${
+                                done
+                                    ? "#dcfce7"
+                                    : isCurrent
+                                        ? "#eef2ff"
+                                        : "#f1f5f9"
+                            };
+                            color:${
+                                done
+                                    ? "#15803d"
+                                    : isCurrent
+                                        ? "#3730a3"
+                                        : "#64748b"
+                            };
+                            font-weight:800;
+                        ">
+                            ${item.icon} ${item.name}
+                            ${done ? " ✓" : isCurrent ? " • disponível" : " • aguardando"}
+                        </span>
+                    `;
+                }
+            )
+            .join("");
+    }
+}
+
+/* =========================================================
+   NÍVEL / XP
+========================================================= */
+
+function calculateLevel() {
+
+    let current =
+        LEVELS[0];
+
+    for (
+        const level of LEVELS
+    ) {
+
+        if (
+            state.xp >=
+            level.xp
+        ) {
+
+            current =
+                level;
+        }
+    }
+
+    state.level =
+        current.level;
+
+    return current;
+}
+
+function addXP(
+    amount,
+    reason = ""
+) {
+
+    const value =
+        Number(amount);
+
+    if (
+        !Number.isFinite(value) ||
+        value <= 0
+    ) {
+        return;
+    }
+
+    const oldLevel =
+        Number(
+            state.level || 1
+        );
+
+    state.xp =
+        Math.max(
+            0,
+            Number(
+                state.xp || 0
+            ) + value
+        );
+
+    const newLevel =
+        calculateLevel();
+
+    saveState();
+
+    if (
+        newLevel.level >
+        oldLevel
+    ) {
+
+        showToast(
+            `🎉 Você chegou ao nível ${newLevel.level}!`
+        );
+    }
+
+    if (reason) {
+
+        setTimeout(
+            () => {
+
+                showToast(
+                    `+${value} XP · ${reason}`
+                );
+
+            },
+            100
+        );
+    }
+
+    checkAchievements();
+
+    renderAll();
+}
+
+/* =========================================================
+   CONQUISTAS
+========================================================= */
+
+function checkAchievements() {
+
+    let changed =
+        false;
+
+    ACHIEVEMENTS.forEach(
+        achievement => {
+
+            if (
+                !state.achievements.includes(
+                    achievement.id
+                ) &&
+                achievement.check(state)
+            ) {
+
+                state.achievements.push(
+                    achievement.id
+                );
+
+                state.xp =
+                    Number(
+                        state.xp || 0
+                    ) +
+                    Number(
+                        achievement.xp || 0
+                    );
+
+                changed =
+                    true;
+
+                setTimeout(
+                    () => {
+
+                        showToast(
+                            `🏆 ${achievement.title} · +${achievement.xp} XP`
+                        );
+
+                    },
+                    150
+                );
+            }
+        }
+    );
+
+    if (changed) {
+
+        calculateLevel();
+
+        saveState();
+    }
+}
+
+/* =========================================================
+   STREAK
+========================================================= */
+
+function registerActivity() {
+
+    const current =
+        today();
+
+    if (
+        !state.lastActiveDate
+    ) {
+
+        state.streak =
+            1;
+
+        state.bestStreak =
+            Math.max(
+                state.bestStreak,
+                state.streak
+            );
+
+        state.lastActiveDate =
+            current;
+
+        saveState();
+
+        return;
+    }
+
+    if (
+        state.lastActiveDate ===
+        current
+    ) {
+
+        return;
+    }
+
+    const previous =
+        new Date(
+            state.lastActiveDate +
+            "T12:00:00"
+        );
+
+    const now =
+        new Date(
+            current +
+            "T12:00:00"
+        );
+
+    const difference =
+        Math.round(
+            (now - previous) /
+            86400000
+        );
+
+    if (
+        difference === 1
+    ) {
+
+        state.streak += 1;
+
+    } else {
+
+        /*
+           VIVA NÃO PUNE.
+
+           Recomeça naturalmente.
+        */
+
+        state.streak =
+            1;
+    }
+
+    state.bestStreak =
+        Math.max(
+            state.bestStreak,
+            state.streak
+        );
+
+    state.lastActiveDate =
+        current;
+
+    saveState();
+}
+
+/* =========================================================
+   SUGESTÕES
+========================================================= */
+
+function generateSuggestions(
+    title
+) {
+
+    const text =
+        title.toLowerCase();
+
+    if (
+        text.includes("quarto") ||
+        text.includes("casa") ||
+        text.includes("organizar") ||
+        text.includes("limpar")
+    ) {
+
+        return [
+            "Escolher um pequeno espaço para começar",
+            "Retirar o que está fora do lugar",
+            "Separar o que precisa ser guardado",
+            "Guardar os objetos",
+            "Finalizar e dar uma última olhada"
+        ];
+    }
+
+    if (
+        text.includes("estudar") ||
+        text.includes("prova") ||
+        text.includes("curso") ||
+        text.includes("faculdade")
+    ) {
+
+        return [
+            "Escolher o assunto",
+            "Separar o material",
+            "Estudar por alguns minutos",
+            "Fazer um pequeno exercício ou resumo",
+            "Anotar o que ficou pendente"
+        ];
+    }
+
+    if (
+        text.includes("trabalho") ||
+        text.includes("projeto")
+    ) {
+
+        return [
+            "Definir o que precisa ser entregue",
+            "Separar os materiais necessários",
+            "Começar pela parte mais simples",
+            "Avançar na parte principal",
+            "Revisar o resultado"
+        ];
+    }
+
+    if (
+        text.includes("comprar") ||
+        text.includes("mercado")
+    ) {
+
+        return [
+            "Fazer uma lista",
+            "Verificar o que já possui",
+            "Definir o que realmente precisa",
+            "Comprar os itens",
+            "Conferir a lista antes de sair"
+        ];
+    }
+
+    return [
+        "Definir qual é o primeiro pequeno passo",
+        "Separar o que você precisa",
+        "Começar por uma parte simples",
+        "Continuar por mais alguns minutos",
+        "Revisar o que conseguiu fazer"
+    ];
+}
+
+/* =========================================================
+   TAREFAS
+========================================================= */
+
+function createTaskObject(
+    title,
+    date,
+    priority,
+    note,
+    energyCost
+) {
+
+    return {
+
+        id: uid("task"),
+
+        title:
+            title.trim(),
+
+        date:
+            date || today(),
+
+        priority:
+            priority || "low",
+
+        note:
+            note || "",
+
+        energyCost:
+            Number(
+                energyCost || 10
+            ),
+
+        completed:
+            false,
+
+        xpAwarded:
+            false,
+
+        fragments:
+            [],
+
+        nextStepMode:
+            false,
+
+        createdAt:
+            Date.now()
+    };
+}
+
+function openTaskModal(
+    taskId = null
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    const isEdit =
+        Boolean(task);
+
+    document.getElementById(
+        "modalContent"
+    ).innerHTML = `
+
+        <div class="modal-handle"></div>
+
+        <div class="modal-title">
+            ${isEdit ? "Editar tarefa" : "Nova tarefa"}
+        </div>
+
+        <div class="modal-subtitle">
+            Não precisa criar uma tarefa perfeita.
+            Crie uma tarefa possível.
+        </div>
+
+        <div class="form-group">
+
+            <label class="form-label">
+                O que precisa fazer?
+            </label>
+
+            <input id="taskTitleInput"
+                   value="${escapeHTML(task?.title || "")}"
+                   placeholder="Ex.: Organizar o quarto">
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Data
+            </label>
+
+            <input id="taskDateInput"
+                   type="date"
+                   value="${task?.date || today()}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Prioridade
+            </label>
+
+            <div class="priority-grid">
+
+                <button class="priority-option ${(!task || task.priority === "low") ? "active" : ""}"
+                        data-priority="low"
+                        onclick="selectPriority(this)">
+                    🌱 Baixa
+                </button>
+
+                <button class="priority-option ${(task?.priority === "medium") ? "active" : ""}"
+                        data-priority="medium"
+                        onclick="selectPriority(this)">
+                    ⚡ Média
+                </button>
+
+                <button class="priority-option ${(task?.priority === "high") ? "active" : ""}"
+                        data-priority="high"
+                        onclick="selectPriority(this)">
+                    🔥 Alta
+                </button>
+
+            </div>
+
+            <input type="hidden"
+                   id="taskPriorityInput"
+                   value="${task?.priority || "low"}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Energia necessária
+            </label>
+
+            <select id="taskEnergyInput">
+
+                <option value="5"
+                    ${(task?.energyCost === 5) ? "selected" : ""}>
+                    🪫 Muito leve
+                </option>
+
+                <option value="10"
+                    ${(!task || task?.energyCost === 10) ? "selected" : ""}>
+                    🔋 Leve
+                </option>
+
+                <option value="20"
+                    ${(task?.energyCost === 20) ? "selected" : ""}>
+                    ⚡ Moderada
+                </option>
+
+                <option value="30"
+                    ${(task?.energyCost === 30) ? "selected" : ""}>
+                    🔥 Alta
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Observação
+            </label>
+
+            <textarea id="taskNoteInput"
+                      placeholder="Opcional...">${escapeHTML(task?.note || "")}</textarea>
+
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                onclick="saveTask('${taskId || ""}')">
+            ${isEdit ? "Salvar alterações" : "Criar tarefa"}
+        </button>
+
+        <button class="btn btn-light btn-full"
+                style="margin-top:8px;"
+                onclick="closeModal()">
+            Cancelar
+        </button>
+    `;
+
+    openModal();
+}
+
+function selectPriority(
+    button
+) {
+
+    document
+        .querySelectorAll(
+            ".priority-option"
+        )
+        .forEach(
+            item =>
+                item.classList.remove(
+                    "active"
+                )
+        );
+
+    button.classList.add(
+        "active"
+    );
+
+    document.getElementById(
+        "taskPriorityInput"
+    ).value =
+        button.dataset.priority;
+}
+
+function saveTask(
+    taskId
+) {
+
+    const title =
+        document.getElementById(
+            "taskTitleInput"
+        ).value.trim();
+
+    if (!title) {
+
+        showToast(
+            "Digite o nome da tarefa."
+        );
+
+        return;
+    }
+
+    const date =
+        document.getElementById(
+            "taskDateInput"
+        ).value ||
+        today();
+
+    const priority =
+        document.getElementById(
+            "taskPriorityInput"
+        ).value;
+
+    const energyCost =
+        Number(
+            document.getElementById(
+                "taskEnergyInput"
+            ).value
+        );
+
+    const note =
+        document.getElementById(
+            "taskNoteInput"
+        ).value.trim();
+
+    if (taskId) {
+
+        const task =
+            state.tasks.find(
+                t => t.id === taskId
+            );
+
+        if (task) {
+
+            task.title =
+                title;
+
+            task.date =
+                date;
+
+            task.priority =
+                priority;
+
+            task.energyCost =
+                energyCost;
+
+            task.note =
+                note;
+        }
+
+        showToast(
+            "✓ Tarefa atualizada."
+        );
+
+    } else {
+
+        const task =
+            createTaskObject(
+                title,
+                date,
+                priority,
+                note,
+                energyCost
+            );
+
+        state.tasks.unshift(
+            task
+        );
+
+        showToast(
+            "🎯 Tarefa criada."
+        );
+    }
+
+    saveState();
+
+    closeModal();
+
+    renderAll();
+}
+
+function deleteTask(
+    taskId
+) {
+
+    if (
+        !confirm(
+            "Excluir esta tarefa?"
+        )
+    ) {
+        return;
+    }
+
+    state.tasks =
+        state.tasks.filter(
+            task =>
+                task.id !== taskId
+        );
+
+    saveState();
+
+    renderAll();
+
+    showToast(
+        "Tarefa excluída."
+    );
+}
+
+function completeTask(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (
+        !task ||
+        task.completed
+    ) {
+        return;
+    }
+
+    task.completed =
+        true;
+
+    registerActivity();
+
+    if (!task.xpAwarded) {
+
+        task.xpAwarded =
+            true;
+
+        addXP(
+            XP_TASK[
+                task.priority
+            ],
+            "Tarefa concluída"
+        );
+    }
+
+    state.missions.tasks +=
+        1;
+
+    saveState();
+
+    checkAchievements();
+
+    renderAll();
+}
+
+/* =========================================================
+   MICROETAPAS
+========================================================= */
+
+function openFractionModal(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    document.getElementById(
+        "modalContent"
+    ).innerHTML = `
+
+        <div class="modal-handle"></div>
+
+        <div class="modal-title">
+            🪜 Quebrar tarefa
+        </div>
+
+        <div class="modal-subtitle">
+            "${escapeHTML(task.title)}"
+            <br><br>
+            Uma tarefa grande pode ficar muito mais leve
+            quando dividida em pequenos passos.
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                onclick="applySuggestions('${taskId}')">
+            ✨ Quebrar por mim
+        </button>
+
+        <button class="btn btn-secondary btn-full"
+                style="margin-top:8px;"
+                onclick="openManualFragments('${taskId}')">
+            ✏️ Criar minhas etapas
+        </button>
+
+        <button class="btn btn-light btn-full"
+                style="margin-top:8px;"
+                onclick="closeModal()">
+            Cancelar
+        </button>
+    `;
+
+    openModal();
+}
+
+function applySuggestions(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    const suggestions =
+        generateSuggestions(
+            task.title
+        );
+
+    task.fragments =
+        suggestions.map(
+            text => ({
+                id: uid("fragment"),
+                text,
+                done: false
+            })
+        );
+
+    saveState();
+
+    closeModal();
+
+    showToast(
+        "🪜 Tarefa dividida em pequenos passos."
+    );
+
+    renderAll();
+}
+
+function openManualFragments(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    document.getElementById(
+        "modalContent"
+    ).innerHTML = `
+
+        <div class="modal-handle"></div>
+
+        <div class="modal-title">
+            ✏️ Criar etapas
+        </div>
+
+        <div class="modal-subtitle">
+            Escreva uma etapa por linha.
+        </div>
+
+        <textarea id="manualFragments"
+                  placeholder="Ex.:&#10;Separar materiais&#10;Começar a tarefa&#10;Finalizar">${escapeHTML(
+                      (task.fragments || [])
+                        .map(
+                            f => f.text
+                        )
+                        .join("\n")
+                  )}</textarea>
+
+        <button class="btn btn-primary btn-full"
+                style="margin-top:10px;"
+                onclick="saveManualFragments('${taskId}')">
+            Salvar etapas
+        </button>
+    `;
+
+    openModal();
+}
+
+function saveManualFragments(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    const lines =
+        document.getElementById(
+            "manualFragments"
+        )
+        .value
+        .split("\n")
+        .map(
+            line => line.trim()
+        )
+        .filter(Boolean);
+
+    task.fragments =
+        lines.map(
+            text => ({
+                id: uid("fragment"),
+                text,
+                done: false
+            })
+        );
+
+    saveState();
+
+    closeModal();
+
+    renderAll();
+
+    showToast(
+        "🪜 Etapas salvas."
+    );
+}
+
+function toggleFragment(
+    taskId,
+    fragmentId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    const fragment =
+        (
+            task.fragments ||
+            []
+        ).find(
+            f => f.id === fragmentId
+        );
+
+    if (
+        !fragment ||
+        fragment.done
+    ) {
+        return;
+    }
+
+    fragment.done =
+        true;
+
+    registerActivity();
+
+    const total =
+        task.fragments.length;
+
+    const fragmentXP =
+        Math.max(
+            4,
+            Math.round(
+                (
+                    task.priority === "high"
+                        ? 30
+                        : 20
+                ) / total
+            )
+        );
+
+    addXP(
+        fragmentXP,
+        "Microetapa concluída"
+    );
+
+    const allDone =
+        task.fragments.length > 0 &&
+        task.fragments.every(
+            f => f.done
+        );
+
+    if (
+        allDone &&
+        !task.completed
+    ) {
+
+        task.completed =
+            true;
+
+        if (!task.xpAwarded) {
+
+            task.xpAwarded =
+                true;
+
+            addXP(
+                XP_TASK[
+                    task.priority
+                ],
+                "Tarefa completa"
+            );
+        }
+
+        addXP(
+            20,
+            "Bônus por completar tudo"
+        );
+
+        state.missions.tasks +=
+            1;
+
+        showToast(
+            "🏆 Você completou a tarefa!"
+        );
+    }
+
+    saveState();
+
+    checkAchievements();
+
+    renderAll();
+}
+
+function toggleGlobalNextStep() {
+
+    state.globalNextStep =
+        !state.globalNextStep;
+
+    saveState();
+
+    renderAll();
+}
+
+/* =========================================================
+   NÃO SEI POR ONDE COMEÇAR
+========================================================= */
+
+function helpMeStart(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    if (
+        !task.fragments ||
+        task.fragments.length === 0
+    ) {
+
+        task.fragments =
+            generateSuggestions(
+                task.title
+            )
+            .map(
+                text => ({
+                    id: uid("fragment"),
+                    text,
+                    done: false
+                })
+            );
+
+        saveState();
+    }
+
+    const next =
+        task.fragments.find(
+            f => !f.done
+        );
+
+    if (!next) {
+
+        showToast(
+            "Essa tarefa já está concluída."
+        );
+
+        return;
+    }
+
+    state.globalNextStep =
+        true;
+
+    saveState();
+
+    showToast(
+        `👉 Comece por: ${next.text}`
+    );
+
+    openFocus(taskId);
+}
+
+/* =========================================================
+   MODO FOCO
+========================================================= */
+
+function openFocus(
+    taskId
+) {
+
+    const task =
+        state.tasks.find(
+            t => t.id === taskId
+        );
+
+    if (!task) return;
+
+    if (
+        !task.fragments ||
+        task.fragments.length === 0
+    ) {
+
+        task.fragments =
+            generateSuggestions(
+                task.title
+            )
+            .map(
+                text => ({
+                    id: uid("fragment"),
+                    text,
+                    done: false
+                })
+            );
+
+        saveState();
+    }
+
+    focusTaskId =
+        taskId;
+
+    document
+        .getElementById(
+            "focusScreen"
+        )
+        .classList.add(
+            "open"
+        );
+
+    renderFocus();
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+function renderFocus() {
+
+    const task =
+        state.tasks.find(
+            t => t.id === focusTaskId
+        );
+
+    if (!task) {
+
+        closeFocus();
+
+        return;
+    }
+
+    const index =
+        task.fragments.findIndex(
+            f => !f.done
+        );
+
+    focusFragmentIndex =
+        index;
+
+    document.getElementById(
+        "focusTaskTitle"
+    ).textContent =
+        task.title;
+
+    if (index === -1) {
+
+        document.getElementById(
+            "focusStepLabel"
+        ).textContent =
+            "CONCLUÍDO";
+
+        document.getElementById(
+            "focusStepText"
+        ).textContent =
+            "Você terminou. Pode respirar. 💙";
+
+        document.getElementById(
+            "focusProgress"
+        ).innerHTML = `
+            <div class="progress">
+                <div class="progress-bar"
+                     style="width:100%">
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    const fragment =
+        task.fragments[index];
+
+    document.getElementById(
+        "focusStepLabel"
+    ).textContent =
+        `PASSO ${index + 1} DE ${task.fragments.length}`;
+
+    document.getElementById(
+        "focusStepText"
+    ).textContent =
+        fragment.text;
+
+    const percentage =
+        Math.round(
+            (
+                index /
+                task.fragments.length
+            ) *
+            100
+        );
+
+    document.getElementById(
+        "focusProgress"
+    ).innerHTML = `
+        <div class="progress">
+            <div class="progress-bar"
+                 style="width:${percentage}%">
+            </div>
+        </div>
+    `;
+}
+
+function completeFocusStep() {
+
+    const task =
+        state.tasks.find(
+            t => t.id === focusTaskId
+        );
+
+    if (!task) return;
+
+    const fragment =
+        task.fragments[
+            focusFragmentIndex
+        ];
+
+    if (!fragment) {
+
+        closeFocus();
+
+        return;
+    }
+
+    /*
+       Marca a microetapa.
+    */
+
+    toggleFragment(
+        task.id,
+        fragment.id
+    );
+
+    /*
+       Uma sessão de foco é registrada.
+    */
+
+    state.focusSessions =
+        Number(
+            state.focusSessions || 0
+        ) + 1;
+
+    saveState();
+
+    checkAchievements();
+
+    setTimeout(
+        () => {
+
+            const updated =
+                state.tasks.find(
+                    t =>
+                        t.id ===
+                        focusTaskId
+                );
+
+            if (
+                updated &&
+                updated.fragments.some(
+                    f => !f.done
+                )
+            ) {
+
+                renderFocus();
+
+            } else {
+
+                renderFocus();
+
+                showToast(
+                    "🎉 Você chegou ao fim!"
+                );
+            }
+
+        },
+        100
+    );
+}
+
+function closeFocus() {
+
+    document
+        .getElementById(
+            "focusScreen"
+        )
+        .classList.remove(
+            "open"
+        );
+
+    document.body.style.overflow =
+        "";
+
+    focusTaskId =
+        null;
+
+    focusFragmentIndex =
+        null;
+}
+
+/* =========================================================
+   RENDER TAREFA
+========================================================= */
+
+function renderTaskHTML(
+    task
+) {
+
+    const fragments =
+        task.fragments ||
+        [];
+
+    const completedFragments =
+        fragments.filter(
+            f => f.done
+        ).length;
+
+    const priorityName = {
+
+        low: "Baixa",
+
+        medium: "Média",
+
+        high: "Alta"
+    };
+
+    let html = `
+
+        <div class="task-card ${task.completed ? "completed" : ""}">
+
+            <div class="task-main">
+
+                <button class="check ${task.completed ? "completed" : ""}"
+                        onclick="completeTask('${task.id}')">
+                    ✓
+                </button>
+
+                <div class="task-info">
+
+                    <div class="task-title">
+                        ${escapeHTML(task.title)}
+                    </div>
+
+                    <div class="task-meta">
+
+                        <span class="badge ${task.priority}">
+                            ${priorityName[task.priority]}
+                        </span>
+
+                        <span class="badge energy">
+                            ⚡ ${task.energyCost}
+                        </span>
+
+                        ${
+                            task.date !== today()
+                                ? `
+                                    <span class="badge">
+                                        📅 ${formatDate(task.date)}
+                                    </span>
+                                  `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+    `;
+
+    if (task.note) {
+
+        html += `
+
+            <div class="card-subtitle"
+                 style="margin-top:9px;">
+                ${escapeHTML(task.note)}
+            </div>
+
+        `;
+    }
+
+    if (fragments.length > 0) {
+
+        html += `
+
+            <div class="fragment-area">
+
+                <div class="fragment-progress-text">
+
+                    <span>
+                        🪜 ${completedFragments}/${fragments.length}
+                    </span>
+
+                    <span>
+                        ${Math.round(
+                            (
+                                completedFragments /
+                                fragments.length
+                            ) * 100
+                        )}%
+                    </span>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="progress-bar"
+                         style="width:${
+                             (
+                                 completedFragments /
+                                 fragments.length
+                             ) * 100
+                         }%">
+                    </div>
+
+                </div>
+        `;
+
+        if (
+            state.globalNextStep ||
+            task.nextStepMode
+        ) {
+
+            const next =
+                fragments.find(
+                    f => !f.done
+                );
+
+            if (next) {
+
+                html += `
+
+                    <div class="next-step">
+
+                        <div class="next-step-label">
+                            👉 Próximo passo
+                        </div>
+
+                        <div class="next-step-text">
+                            ${escapeHTML(next.text)}
+                        </div>
+
+                    </div>
+
+                `;
+
+            } else {
+
+                html += `
+
+                    <div class="next-step">
+
+                        <div class="next-step-label">
+                            CONCLUÍDO
+                        </div>
+
+                        <div class="next-step-text">
+                            Você fez tudo. 💙
+                        </div>
+
+                    </div>
+
+                `;
+            }
+
+        } else {
+
+            fragments.forEach(
+                fragment => {
+
+                    html += `
+
+                        <div class="fragment ${fragment.done ? "done" : ""}"
+                             onclick="toggleFragment('${task.id}','${fragment.id}')">
+
+                            <div class="fragment-check">
+                                ✓
+                            </div>
+
+                            <div class="fragment-text">
+                                ${escapeHTML(fragment.text)}
+                            </div>
+
+                        </div>
+
+                    `;
+                }
+            );
+        }
+
+        html += `
+            </div>
+        `;
+    }
+
+    html += `
+
+        <div class="task-actions">
+
+            ${
+                !task.completed
+                    ? `
+                        <button class="btn btn-success btn-small"
+                                onclick="completeTask('${task.id}')">
+                            ✓ Concluir
+                        </button>
+                      `
+                    : ""
+            }
+
+            <button class="btn btn-secondary btn-small"
+                    onclick="openFractionModal('${task.id}')">
+                🪜 ${fragments.length ? "Editar etapas" : "Quebrar"}
+            </button>
+
+            ${
+                !task.completed
+                    ? `
+                        <button class="btn btn-light btn-small"
+                                onclick="helpMeStart('${task.id}')">
+                            🧠 Não sei por onde começar
+                        </button>
+                      `
+                    : ""
+            }
+
+            ${
+                !task.completed
+                    ? `
+                        <button class="btn btn-light btn-small"
+                                onclick="openFocus('${task.id}')">
+                            🎯 Foco
+                        </button>
+                      `
+                    : ""
+            }
+
+            <button class="btn btn-light btn-small"
+                    onclick="openTaskModal('${task.id}')">
+                ✏️
+            </button>
+
+            <button class="btn btn-danger btn-small"
+                    onclick="deleteTask('${task.id}')">
+                🗑
+            </button>
+
+        </div>
+
+        </div>
+    `;
+
+    return html;
+}
+
+function renderHomeTasks() {
+
+    const container =
+        document.getElementById(
+            "homeTasks"
+        );
+
+    const tasks =
+        state.tasks
+            .filter(
+                t =>
+                    t.date === today()
+            )
+            .sort(
+                (a, b) => {
+
+                    if (
+                        a.completed !==
+                        b.completed
+                    ) {
+
+                        return a.completed
+                            ? 1
+                            : -1;
+                    }
+
+                    const order = {
+
+                        high: 0,
+
+                        medium: 1,
+
+                        low: 2
+                    };
+
+                    return (
+                        order[a.priority] -
+                        order[b.priority]
+                    );
+                }
+            );
+
+    const completed =
+        tasks.filter(
+            t => t.completed
+        ).length;
+
+    document.getElementById(
+        "todayTaskSummary"
+    ).textContent =
+        `${completed} de ${tasks.length} concluídas`;
+
+    if (!tasks.length) {
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🌱
+                    </div>
+
+                    <div class="empty-text">
+                        Nenhuma tarefa para hoje.<br>
+                        Que tal começar com uma pequena?
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        tasks
+            .slice(0, 5)
+            .map(renderTaskHTML)
+            .join("");
+
+    if (
+        tasks.length > 5
+    ) {
+
+        container.innerHTML += `
+
+            <button class="btn btn-light btn-full"
+                    style="margin-bottom:10px;"
+                    onclick="showPage('tasks')">
+                Ver mais ${tasks.length - 5} tarefa(s)
+            </button>
+
+        `;
+    }
+}
+
+function renderAllTasks() {
+
+    const container =
+        document.getElementById(
+            "allTasks"
+        );
+
+    const tasks =
+        [...state.tasks]
+            .sort(
+                (a, b) => {
+
+                    if (
+                        a.completed !==
+                        b.completed
+                    ) {
+
+                        return a.completed
+                            ? 1
+                            : -1;
+                    }
+
+                    return (
+                        new Date(a.date) -
+                        new Date(b.date)
+                    );
+                }
+            );
+
+    if (!tasks.length) {
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🎯
+                    </div>
+
+                    <div class="empty-text">
+                        Você ainda não criou nenhuma tarefa.
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        tasks
+            .map(renderTaskHTML)
+            .join("");
+}
+
+/* =========================================================
+   MISSÕES
+========================================================= */
+
+function renderMissions() {
+
+    const missions =
+        document.getElementById(
+            "missions"
+        );
+
+    const tasksDone =
+        state.missions.tasks >= 3;
+
+    const habitDone =
+        state.missions.habit >= 1;
+
+    const expenseDone =
+        state.missions.expense >= 1;
+
+    missions.innerHTML = `
+
+        <div class="mission">
+
+            <div class="mission-icon">
+                🎯
+            </div>
+
+            <div class="mission-info">
+
+                <div class="mission-title">
+                    Concluir 3 tarefas
+                </div>
+
+                <div class="mission-status">
+                    ${Math.min(
+                        state.missions.tasks,
+                        3
+                    )}/3
+                </div>
+
+            </div>
+
+            <button class="btn btn-small ${
+                tasksDone
+                    ? "btn-success"
+                    : "btn-light"
+            }"
+                    onclick="${
+                        tasksDone
+                            ? "claimMission('tasks')"
+                            : ""
+                    }">
+                ${
+                    tasksDone
+                        ? "✓ Feita"
+                        : "+40 XP"
+                }
+            </button>
+
+        </div>
+
+        <div class="mission">
+
+            <div class="mission-icon">
+                🌱
+            </div>
+
+            <div class="mission-info">
+
+                <div class="mission-title">
+                    Completar um hábito
+                </div>
+
+                <div class="mission-status">
+                    ${
+                        habitDone
+                            ? "Concluído"
+                            : "Pendente"
+                    }
+                </div>
+
+            </div>
+
+            <button class="btn btn-small ${
+                habitDone
+                    ? "btn-success"
+                    : "btn-light"
+            }"
+                    onclick="${
+                        habitDone
+                            ? "claimMission('habit')"
+                            : ""
+                    }">
+                ${
+                    habitDone
+                        ? "✓ Feita"
+                        : "+20 XP"
+                }
+            </button>
+
+        </div>
+
+        <div class="mission">
+
+            <div class="mission-icon">
+                💰
+            </div>
+
+            <div class="mission-info">
+
+                <div class="mission-title">
+                    Registrar um gasto
+                </div>
+
+                <div class="mission-status">
+                    ${
+                        expenseDone
+                            ? "Concluído"
+                            : "Pendente"
+                    }
+                </div>
+
+            </div>
+
+            <button class="btn btn-small ${
+                expenseDone
+                    ? "btn-success"
+                    : "btn-light"
+            }"
+                    onclick="${
+                        expenseDone
+                            ? "claimMission('expense')"
+                            : ""
+                    }">
+                ${
+                    expenseDone
+                        ? "✓ Feita"
+                        : "+10 XP"
+                }
+            </button>
+
+        </div>
+    `;
+}
+
+function claimMission(
+    type
+) {
+
+    const keys = {
+
+        tasks:
+            "mission_tasks_" +
+            today(),
+
+        habit:
+            "mission_habit_" +
+            today(),
+
+        expense:
+            "mission_expense_" +
+            today()
+    };
+
+    if (
+        state.rewards[
+            keys[type]
+        ]
+    ) {
+
+        return;
+    }
+
+    const rewards = {
+
+        tasks: 40,
+
+        habit: 20,
+
+        expense: 10
+    };
+
+    state.rewards[
+        keys[type]
+    ] = true;
+
+    addXP(
+        rewards[type],
+        "Missão concluída"
+    );
+
+    saveState();
+
+    renderAll();
+}
+
+/* =========================================================
+   HÁBITOS
+========================================================= */
+
+function completeHabit(
+    habitId
+) {
+
+    const habit =
+        state.habits.find(
+            h =>
+                h.id ===
+                habitId
+        );
+
+    if (!habit) return;
+
+    const current =
+        today();
+
+    if (
+        habit.lastDate !==
+        current
+    ) {
+
+        habit.count =
+            0;
+
+        habit.lastDate =
+            current;
+    }
+
+    if (
+        habit.count >=
+        habit.target
+    ) {
+
+        showToast(
+            "🌱 Você já completou esse hábito hoje."
+        );
+
+        return;
+    }
+
+    habit.count +=
+        1;
+
+    registerActivity();
+
+    addXP(
+        15,
+        "Hábito concluído"
+    );
+
+    state.missions.habit =
+        1;
+
+    saveState();
+
+    renderAll();
+}
+
+function renderHabits() {
+
+    const container =
+        document.getElementById(
+            "habitsList"
+        );
+
+    container.innerHTML =
+        state.habits
+            .map(
+                habit => {
+
+                    const percentage =
+                        Math.min(
+                            100,
+                            (
+                                habit.count /
+                                habit.target
+                            ) *
+                            100
+                        );
+
+                    return `
+
+                        <div class="habit-card">
+
+                            <div class="habit-head">
+
+                                <div class="habit-icon">
+                                    ${habit.icon}
+                                </div>
+
+                                <div class="habit-info">
+
+                                    <div class="habit-name">
+                                        ${escapeHTML(habit.name)}
+                                    </div>
+
+                                    <div class="habit-count">
+                                        ${habit.count}/${habit.target}
+                                    </div>
+
+                                </div>
+
+                                <button class="btn btn-success btn-small"
+                                        onclick="completeHabit('${habit.id}')">
+                                    +1
+                                </button>
+
+                            </div>
+
+                            <div class="habit-bar">
+
+                                <div class="habit-fill"
+                                     style="width:${percentage}%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+                }
+            )
+            .join("");
+}
+
+/* =========================================================
+   COMPRAS
+========================================================= */
+
+function addShopping() {
+
+    const input =
+        document.getElementById(
+            "shoppingInput"
+        );
+
+    const value =
+        input.value.trim();
+
+    if (!value) return;
+
+    state.shopping.push({
+
+        id:
+            uid("shop"),
+
+        text:
+            value,
+
+        done:
+            false
+    });
+
+    input.value =
+        "";
+
+    saveState();
+
+    renderShopping();
+
+    showToast(
+        "🛒 Item adicionado."
+    );
+}
+
+function toggleShopping(
+    id
+) {
+
+    const item =
+        state.shopping.find(
+            i =>
+                i.id === id
+        );
+
+    if (!item) return;
+
+    item.done =
+        !item.done;
+
+    saveState();
+
+    renderShopping();
+}
+
+function deleteShopping(
+    id
+) {
+
+    state.shopping =
+        state.shopping.filter(
+            i =>
+                i.id !== id
+        );
+
+    saveState();
+
+    renderShopping();
+}
+
+function renderShopping() {
+
+    const container =
+        document.getElementById(
+            "shoppingList"
+        );
+
+    if (
+        !state.shopping.length
+    ) {
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🛒
+                    </div>
+
+                    <div class="empty-text">
+                        Sua lista está vazia.
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = `
+
+        <section class="card">
+
+            ${state.shopping.map(
+                item => `
+
+                    <div class="list-item">
+
+                        <button class="check ${
+                            item.done
+                                ? "completed"
+                                : ""
+                        }"
+                                onclick="toggleShopping('${item.id}')">
+                            ✓
+                        </button>
+
+                        <div class="list-content">
+
+                            <div class="list-title"
+                                 style="${
+                                     item.done
+                                         ? "text-decoration:line-through;color:#94a3b8;"
+                                         : ""
+                                 }">
+
+                                ${escapeHTML(
+                                    item.text
+                                )}
+
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-danger btn-small"
+                                onclick="deleteShopping('${item.id}')">
+                            🗑
+                        </button>
+
+                    </div>
+
+                `
+            ).join("")}
+
+        </section>
+    `;
+}
+
+/* =========================================================
+   GASTOS
+========================================================= */
+
+function addExpense() {
+
+    const desc =
+        document.getElementById(
+            "expenseDesc"
+        )
+        .value.trim();
+
+    const value =
+        Number(
+            document.getElementById(
+                "expenseValue"
+            ).value
+        );
+
+    if (
+        !desc ||
+        !value ||
+        value <= 0
+    ) {
+
+        showToast(
+            "Preencha descrição e valor."
+        );
+
+        return;
+    }
+
+    state.expenses.unshift({
+
+        id:
+            uid("expense"),
+
+        desc,
+
+        value,
+
+        date:
+            today()
+    });
+
+    state.missions.expense =
+        1;
+
+    document.getElementById(
+        "expenseDesc"
+    ).value = "";
+
+    document.getElementById(
+        "expenseValue"
+    ).value = "";
+
+    registerActivity();
+
+    addXP(
+        3,
+        "Gasto registrado"
+    );
+
+    saveState();
+
+    renderExpenses();
+
+    renderMissions();
+}
+
+function deleteExpense(
+    id
+) {
+
+    state.expenses =
+        state.expenses.filter(
+            e =>
+                e.id !== id
+        );
+
+    saveState();
+
+    renderExpenses();
+}
+
+function renderExpenses() {
+
+    const container =
+        document.getElementById(
+            "expensesList"
+        );
+
+    const total =
+        state.expenses.reduce(
+            (
+                sum,
+                item
+            ) =>
+                sum +
+                Number(
+                    item.value
+                ),
+            0
+        );
+
+    document.getElementById(
+        "expenseTotal"
+    ).textContent =
+        total.toLocaleString(
+            "pt-BR",
+            {
+                style:
+                    "currency",
+                currency:
+                    "BRL"
+            }
+        );
+
+    if (
+        !state.expenses.length
+    ) {
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        💰
+                    </div>
+
+                    <div class="empty-text">
+                        Nenhum gasto registrado.
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = `
+
+        <section class="card">
+
+            ${state.expenses.map(
+                item => `
+
+                    <div class="list-item">
+
+                        <div class="list-content">
+
+                            <div class="list-title">
+                                ${escapeHTML(
+                                    item.desc
+                                )}
+                            </div>
+
+                            <div class="list-meta">
+                                ${formatDate(
+                                    item.date
+                                )}
+                            </div>
+
+                        </div>
+
+                        <strong>
+                            ${Number(
+                                item.value
+                            ).toLocaleString(
+                                "pt-BR",
+                                {
+                                    style:
+                                        "currency",
+                                    currency:
+                                        "BRL"
+                                }
+                            )}
+                        </strong>
+
+                        <button class="btn btn-danger btn-small"
+                                onclick="deleteExpense('${item.id}')">
+                            🗑
+                        </button>
+
+                    </div>
+
+                `
+            ).join("")}
+
+        </section>
+    `;
+}
+
+/* =========================================================
+   NOTAS
+========================================================= */
+
+function addNote() {
+
+    const input =
+        document.getElementById(
+            "noteInput"
+        );
+
+    const text =
+        input.value.trim();
+
+    if (!text) return;
+
+    state.notes.unshift({
+
+        id:
+            uid("note"),
+
+        text,
+
+        date:
+            today()
+    });
+
+    input.value =
+        "";
+
+    addXP(
+        2,
+        "Anotação criada"
+    );
+
+    saveState();
+
+    renderNotes();
+}
+
+function deleteNote(
+    id
+) {
+
+    state.notes =
+        state.notes.filter(
+            n =>
+                n.id !== id
+        );
+
+    saveState();
+
+    renderNotes();
+}
+
+function renderNotes() {
+
+    const container =
+        document.getElementById(
+            "notesList"
+        );
+
+    if (
+        !state.notes.length
+    ) {
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📝
+                    </div>
+
+                    <div class="empty-text">
+                        Nenhuma anotação ainda.
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        state.notes
+            .map(
+                note => `
+
+                    <section class="card">
+
+                        <div style="font-size:13px;line-height:1.55;">
+                            ${escapeHTML(
+                                note.text
+                            )}
+                        </div>
+
+                        <div class="task-actions">
+
+                            <span class="badge">
+                                ${formatDate(
+                                    note.date
+                                )}
+                            </span>
+
+                            <button class="btn btn-danger btn-small"
+                                    onclick="deleteNote('${note.id}')">
+                                🗑 Excluir
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                `
+            )
+            .join("");
+}
+
+/* =========================================================
+   SEMANA
+========================================================= */
+
+function getWeekStart() {
+
+    const date =
+        new Date();
+
+    const day =
+        date.getDay();
+
+    const diff =
+        day === 0
+            ? -6
+            : 1 - day;
+
+    date.setDate(
+        date.getDate() +
+        diff
+    );
+
+    return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    );
+}
+
+function getWeekDates() {
+
+    const start =
+        getWeekStart();
+
+    const dates = [];
+
+    for (
+        let i = 0;
+        i < 7;
+        i++
+    ) {
+
+        const d =
+            new Date(start);
+
+        d.setDate(
+            start.getDate() +
+            i
+        );
+
+        const year =
+            d.getFullYear();
+
+        const month =
+            String(
+                d.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+        const day =
+            String(
+                d.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+        dates.push(
+            `${year}-${month}-${day}`
+        );
+    }
+
+    return dates;
+}
+
+function getWeeklyTasks() {
+
+    const dates =
+        getWeekDates();
+
+    return state.tasks.filter(
+        task =>
+            dates.includes(
+                task.date
+            )
+    );
+}
+
+function getWeeklyCompletedTasks() {
+
+    return getWeeklyTasks()
+        .filter(
+            task =>
+                task.completed
+        );
+}
+
+function getWeeklyActiveDays() {
+
+    const dates =
+        getWeekDates();
+
+    const active =
+        new Set();
+
+    state.tasks.forEach(
+        task => {
+
+            if (
+                dates.includes(
+                    task.date
+                ) &&
+                task.completed
+            ) {
+
+                active.add(
+                    task.date
+                );
+            }
+        }
+    );
+
+    if (
+        state.energyHistory
+    ) {
+
+        Object.keys(
+            state.energyHistory
+        ).forEach(
+            date => {
+
+                if (
+                    dates.includes(
+                        date
+                    )
+                ) {
+
+                    active.add(
+                        date
+                    );
+                }
+            }
+        );
+    }
+
+    return active.size;
+}
+
+function renderWeeklySummary() {
+
+    const tasks =
+        getWeeklyTasks();
+
+    const completed =
+        getWeeklyCompletedTasks();
+
+    const activeDays =
+        getWeeklyActiveDays();
+
+    const fragments =
+        tasks.reduce(
+            (
+                sum,
+                task
+            ) =>
+                sum +
+                (
+                    task.fragments ||
+                    []
+                ).filter(
+                    f => f.done
+                ).length,
+            0
+        );
+
+    const html = `
+
+        <div class="week-grid">
+
+            <div class="week-stat">
+                <strong>
+                    ${completed.length}
+                </strong>
+                <span>
+                    tarefas
+                </span>
+            </div>
+
+            <div class="week-stat">
+                <strong>
+                    ${fragments}
+                </strong>
+                <span>
+                    microetapas
+                </span>
+            </div>
+
+            <div class="week-stat">
+                <strong>
+                    ${activeDays}
+                </strong>
+                <span>
+                    dias ativos
+                </span>
+            </div>
+
+            <div class="week-stat">
+                <strong>
+                    ${state.xp}
+                </strong>
+                <span>
+                    XP total
+                </span>
+            </div>
+
+        </div>
+
+        <div style="margin-top:13px;
+                    font-size:12px;
+                    line-height:1.5;
+                    color:#64748b;">
+
+            ${
+                activeDays === 0
+                    ? "🌱 A semana está começando. Uma pequena ação já muda o resultado."
+                    : activeDays >= 5
+                        ? "🔥 Você apareceu por você mesmo em vários dias. Isso é constância."
+                        : "💙 Você não precisa fazer tudo. Continue construindo aos poucos."
+            }
+
+        </div>
+    `;
+
+    document.getElementById(
+        "weeklySummary"
+    ).innerHTML =
+        html;
+
+    document.getElementById(
+        "profileWeekly"
+    ).innerHTML =
+        html;
+}
+
+/* =========================================================
+   MOMENTO
+========================================================= */
+
+function renderMomento() {
+
+    let message;
+
+    if (
+        state.energy <= 2
+    ) {
+
+        message =
+            `${ENERGY[state.energy].icon} Sua energia está ${ENERGY[state.energy].name.toLowerCase()}. Hoje, fazer pouco também é fazer. Escolha uma coisa pequena e comece por ela.`;
+
+    } else if (
+        state.tasks.some(
+            t =>
+                t.date === today() &&
+                !t.completed
+        )
+    ) {
+
+        message =
+            "🎯 Você não precisa olhar para todas as tarefas. Escolha apenas a próxima. O resto pode esperar.";
+
+    } else if (
+        state.streak >= 3
+    ) {
+
+        message =
+            "🔥 Você está construindo constância. Não precisa ser perfeito — precisa continuar voltando.";
+
+    } else {
+
+        message =
+            "💙 Organizar a vida não é controlar tudo. É criar espaço para aquilo que realmente importa.";
+    }
+
+    document.getElementById(
+        "momentoText"
+    ).textContent =
+        message;
+}
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome() {
+
+    const level =
+        calculateLevel();
+
+    const nextLevel =
+        LEVELS.find(
+            l =>
+                l.level ===
+                level.level + 1
+        );
+
+    document.getElementById(
+        "heroSmall"
+    ).textContent =
+        getGreeting();
+
+    document.getElementById(
+        "heroTitle"
+    ).textContent =
+        state.name
+            ? `${state.name}, vamos nessa?`
+            : "Vamos começar?";
+
+    document.getElementById(
+        "heroText"
+    ).textContent =
+        getHeroText();
+
+    document.getElementById(
+        "dateLabel"
+    ).textContent =
+        new Date().toLocaleDateString(
+            "pt-BR",
+            {
+                weekday:
+                    "short",
+                day:
+                    "2-digit",
+                month:
+                    "short"
+            }
+        );
+
+    document.getElementById(
+        "levelName"
+    ).textContent =
+        level.name;
+
+    document.getElementById(
+        "levelNumber"
+    ).textContent =
+        `Nível ${level.level}`;
+
+    document.getElementById(
+        "xpNumber"
+    ).textContent =
+        `${state.xp} XP`;
+
+    if (nextLevel) {
+
+        const previousXP =
+            level.xp;
+
+        const targetXP =
+            nextLevel.xp;
+
+        const progress =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    (
+                        (
+                            state.xp -
+                            previousXP
+                        ) /
+                        (
+                            targetXP -
+                            previousXP
+                        )
+                    ) *
+                    100
+                )
+            );
+
+        document.getElementById(
+            "xpBar"
+        ).style.width =
+            `${progress}%`;
+
+        document.getElementById(
+            "xpNext"
+        ).textContent =
+            `${targetXP - state.xp} XP para ${nextLevel.name}`;
+
+    } else {
+
+        document.getElementById(
+            "xpBar"
+        ).style.width =
+            "100%";
+
+        document.getElementById(
+            "xpNext"
+        ).textContent =
+            "Você chegou ao nível máximo. 🏆";
+    }
+
+    const todayTasks =
+        state.tasks.filter(
+            t =>
+                t.date === today()
+        );
+
+    document.getElementById(
+        "statStreak"
+    ).textContent =
+        state.streak;
+
+    document.getElementById(
+        "statTasks"
+    ).textContent =
+        todayTasks.filter(
+            t => t.completed
+        ).length;
+
+    document.getElementById(
+        "statAchievements"
+    ).textContent =
+        state.achievements.length;
+
+    document.getElementById(
+        "streakBig"
+    ).textContent =
+        state.streak;
+
+    document.getElementById(
+        "bestStreak"
+    ).textContent =
+        `Melhor sequência: ${state.bestStreak} dia(s)`;
+
+    if (
+        state.streak === 0
+    ) {
+
+        document.getElementById(
+            "streakText"
+        ).textContent =
+            "Comece hoje. Não precisa ser perfeito.";
+
+    } else if (
+        state.streak === 1
+    ) {
+
+        document.getElementById(
+            "streakText"
+        ).textContent =
+            "Você apareceu hoje. Esse já é um passo.";
+
+    } else {
+
+        document.getElementById(
+            "streakText"
+        ).textContent =
+            "Você está construindo constância. Continue no seu ritmo.";
+    }
+
+    renderHomeTasks();
+
+    renderMissions();
+
+    renderWeeklySummary();
+
+    renderMomento();
+
+    renderEnergy();
+}
+
+function getGreeting() {
+
+    const hour =
+        new Date().getHours();
+
+    if (
+        hour < 12
+    ) {
+        return "Bom dia";
+    }
+
+    if (
+        hour < 18
+    ) {
+        return "Boa tarde";
+    }
+
+    return "Boa noite";
+}
+
+function getHeroText() {
+
+    if (!state.name) {
+
+        return "Um passo de cada vez. Você não precisa resolver tudo hoje.";
+    }
+
+    if (
+        state.energy <= 2
+    ) {
+
+        return "Hoje podemos simplificar. Vamos escolher apenas o que realmente importa.";
+    }
+
+    if (
+        state.energy >= 4
+    ) {
+
+        return "Você está com energia. Vamos aproveitar sem exagerar.";
+    }
+
+    return "Um passo de cada vez. Você não precisa resolver tudo hoje.";
+}
+
+/* =========================================================
+   PERFIL
+========================================================= */
+
+function saveName() {
+
+    const name =
+        document.getElementById(
+            "profileName"
+        )
+        .value.trim();
+
+    state.name =
+        name;
+
+    saveState();
+
+    renderHome();
+
+    showToast(
+        name
+            ? `💙 Prazer, ${name}!`
+            : "Nome removido."
+    );
+}
+
+function renderProfile() {
+
+    document.getElementById(
+        "profileName"
+    ).value =
+        state.name || "";
+
+    renderAchievements();
+}
+
+function renderAchievements() {
+
+    const container =
+        document.getElementById(
+            "achievements"
+        );
+
+    container.innerHTML =
+        ACHIEVEMENTS
+            .map(
+                item => {
+
+                    const unlocked =
+                        state.achievements.includes(
+                            item.id
+                        );
+
+                    return `
+
+                        <div class="achievement-card ${
+                            unlocked
+                                ? ""
+                                : "locked"
+                        }">
+
+                            <div class="achievement-icon">
+                                ${item.icon}
+                            </div>
+
+                            <div class="achievement-title">
+                                ${escapeHTML(
+                                    item.title
+                                )}
+                            </div>
+
+                            <div class="achievement-desc">
+                                ${escapeHTML(
+                                    item.desc
+                                )}
+                            </div>
+
+                            <div class="achievement-xp">
+                                +${item.xp} XP
+                            </div>
+
+                        </div>
+                    `;
+                }
+            )
+            .join("");
+}
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function exportData() {
+
+    const data =
+        JSON.stringify(
+            state,
+            null,
+            2
+        );
+
+    const blob =
+        new Blob(
+            [data],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+    link.href =
+        url;
+
+    link.download =
+        `viva-backup-${today()}.json`;
+
+    link.click();
+
+    URL.revokeObjectURL(
+        url
+    );
+
+    showToast(
+        "📤 Backup exportado."
+    );
+}
+
+function importData(
+    event
+) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function() {
+
+            try {
+
+                const imported =
+                    JSON.parse(
+                        reader.result
+                    );
+
+                state =
+                    Object.assign(
+                        createDefaultState(),
+                        imported
+                    );
+
+                /*
+                   Garante as novas estruturas.
+                */
+
+                if (
+                    !state.energyLogs
+                ) {
+                    state.energyLogs = {};
+                }
+
+                if (
+                    !state.energyHistory
+                ) {
+                    state.energyHistory = {};
+                }
+
+                state.dataVersion =
+                    CURRENT_DATA_VERSION;
+
+                saveState();
+
+                renderAll();
+
+                showToast(
+                    "📥 Backup importado com sucesso."
+                );
+
+            } catch {
+
+                showToast(
+                    "Arquivo de backup inválido."
+                );
+            }
+        };
+
+    reader.readAsText(file);
+}
+
+function resetData() {
+
+    if (
+        !confirm(
+            "Isso apagará os dados salvos neste navegador. Continuar?"
+        )
+    ) {
+
+        return;
+    }
+
+    state =
+        createDefaultState();
+
+    saveState();
+
+    renderAll();
+
+    showToast(
+        "Dados resetados."
+    );
+}
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+function showPage(
+    page
+) {
+
+    currentPage =
+        page;
+
+    document
+        .querySelectorAll(
+            ".page"
+        )
+        .forEach(
+            element => {
+
+                element.classList.remove(
+                    "active"
+                );
+            }
+        );
+
+    const target =
+        document.getElementById(
+            "page-" +
+            page
+        );
+
+    if (target) {
+
+        target.classList.add(
+            "active"
+        );
+    }
+
+    document
+        .querySelectorAll(
+            ".nav-item"
+        )
+        .forEach(
+            item => {
+
+                item.classList.toggle(
+                    "active",
+                    item.dataset.page ===
+                        page
+                );
+            }
+        );
+
+    window.scrollTo(
+        {
+            top: 0,
+            behavior: "smooth"
+        }
+    );
+
+    if (
+        page === "home"
+    ) {
+        renderHome();
+    }
+
+    if (
+        page === "tasks"
+    ) {
+        renderAllTasks();
+    }
+
+    if (
+        page === "shopping"
+    ) {
+        renderShopping();
+    }
+
+    if (
+        page === "habits"
+    ) {
+        renderHabits();
+    }
+
+    if (
+        page === "profile"
+    ) {
+        renderProfile();
+    }
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal() {
+
+    document
+        .getElementById(
+            "modalBackdrop"
+        )
+        .classList.add(
+            "open"
+        );
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+function closeModal() {
+
+    document
+        .getElementById(
+            "modalBackdrop"
+        )
+        .classList.remove(
+            "open"
+        );
+
+    document.body.style.overflow =
+        "";
+}
+
+function closeModalOutside(
+    event
+) {
+
+    if (
+        event.target.id ===
+        "modalBackdrop"
+    ) {
+
+        closeModal();
+    }
+}
+
+/* =========================================================
+   RENDER GERAL
+========================================================= */
+
+function renderAll() {
+
+    /*
+       Sempre garante que o estado
+       diário esteja atualizado.
+    */
+
+    resetDailyData();
+
+    calculateLevel();
+
+    renderHome();
+
+    renderAllTasks();
+
+    renderShopping();
+
+    renderHabits();
+
+    renderExpenses();
+
+    renderNotes();
+
+    renderProfile();
+
+    const toggle =
+        document.getElementById(
+            "globalNextStepToggle"
+        );
+
+    if (toggle) {
+
+        toggle.classList.toggle(
+            "active",
+            state.globalNextStep
+        );
+    }
+
+    saveState();
+}
+
+/* =========================================================
+   DEBUG
+========================================================= */
+
+/*
+   Função simples para verificar
+   a integridade do VIVA.
+
+   Pode ser chamada no console
+   do navegador com:
+
+   vivaDebug()
+*/
+
+function vivaDebug() {
+
+    const logs =
+        getTodayEnergyLogs();
+
+    const report = {
+
+        storageKey:
+            STORAGE_KEY,
+
+        dataVersion:
+            state.dataVersion,
+
+        xp:
+            state.xp,
+
+        level:
+            state.level,
+
+        achievements:
+            state.achievements.length,
+
+        tasks:
+            state.tasks.length,
+
+        completedTasks:
+            state.tasks.filter(
+                t => t.completed
+            ).length,
+
+        streak:
+            state.streak,
+
+        bestStreak:
+            state.bestStreak,
+
+        today:
+            today(),
+
+        currentEnergy:
+            state.energy,
+
+        energyToday:
+            logs.length,
+
+        energyLimit:
+            MAX_DAILY_ENERGY_CHECKINS,
+
+        energyRemaining:
+            getRemainingEnergyCheckins(),
+
+        energyPeriod:
+            getEnergyPeriod(),
+
+        energyPeriodsRegistered:
+            getRegisteredEnergyPeriods(),
+
+        energyDays:
+            getEnergyDaysCount(),
+
+        localStorageAvailable:
+            typeof localStorage !==
+            "undefined"
+    };
+
+    console.table(report);
+
+    return report;
+}
+
+/* =========================================================
+   TESTE DE PERSISTÊNCIA
+========================================================= */
+
+function vivaStorageTest() {
+
+    try {
+
+        const raw =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+        if (!raw) {
+
+            console.warn(
+                "VIVA DEBUG: nenhum dado encontrado."
+            );
+
+            return false;
+        }
+
+        const parsed =
+            JSON.parse(raw);
+
+        const writeReadTestKey =
+            STORAGE_KEY + "_DEBUG_TEST";
+
+        const testValue =
+            String(Date.now());
+
+        localStorage.setItem(
+            writeReadTestKey,
+            testValue
+        );
+
+        const testResult =
+            localStorage.getItem(
+                writeReadTestKey
+            );
+
+        localStorage.removeItem(
+            writeReadTestKey
+        );
+
+        const storageWorks =
+            testResult === testValue;
+
+        console.log(
+            "VIVA DEBUG: localStorage:",
+            storageWorks ? "OK" : "FALHA"
+        );
+
+        console.log(
+            "XP:",
+            parsed.xp
+        );
+
+        console.log(
+            "Conquistas:",
+            parsed.achievements
+        );
+
+        console.log(
+            "Tarefas:",
+            parsed.tasks
+        );
+
+        console.log(
+            "Energia:",
+            parsed.energy
+        );
+
+        console.log(
+            "Período atual:",
+            getEnergyPeriod()
+        );
+
+        console.log(
+            "Períodos registrados hoje:",
+            getRegisteredEnergyPeriods()
+        );
+
+        console.log(
+            "Histórico de energia:",
+            parsed.energyLogs
+        );
+
+        return storageWorks;
+
+    } catch (error) {
+
+        console.error(
+            "VIVA DEBUG: falha no localStorage.",
+            error
+        );
+
+        return false;
+    }
+}
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+        saveState();
+    }
+);
+
+function init() {
+
+    resetDailyData();
+
+    calculateLevel();
+
+    renderAll();
+
+    console.log(
+        "VIVA V4 iniciado."
+    );
+
+    console.log(
+        "Persistência:",
+        "localStorage"
+    );
+
+    console.log(
+        "Energia:",
+        "1 registro pela manhã + 1 à tarde + 1 à noite"
+    );
+}
+
+init();
+
+/* =========================================================
+   TECLADO
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeModal();
+
+            closeFocus();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>
